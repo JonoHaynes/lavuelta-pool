@@ -571,10 +571,11 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div class="card"><h3><span class="n">7</span>Prize pool</h3>
         <ul><li><b>Entry fee:</b> 20 CHF per manager.</li>
         <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 22 August, 12:00 CEST).</li>
-        <li>With nine managers entered, the pot is <b>180 CHF</b> (9 × 20 CHF), shared between the top three:</li>
-        <li><b>Winner</b> — 60%, <b>108 CHF</b></li>
-        <li><b>2nd place</b> — 30%, <b>54 CHF</b></li>
-        <li><b>3rd place</b> — 10%, <b>18 CHF</b></li></ul>
+        <li>The pot is the total of all entry fees — 20 CHF per manager — and is shared between the top three:</li>
+        <li><b>Winner</b> — 60% of the pot</li>
+        <li><b>2nd place</b> — 30%</li>
+        <li><b>3rd place</b> — 10%</li>
+        <li>The exact figures are confirmed once entries close on 22 August. With nine managers, for example, that is a 180 CHF pot paying 108 / 54 / 18 CHF.</li></ul>
         </div>
     </div>
   </section>
@@ -739,15 +740,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
    ════════════════════════════════════════════════════════════════════ */
 /*DATA_START*/
 const MANAGERS = [
-  { id:'jonathan', name:'Jonathan', riders:[] },
-  { id:'chris', name:'Chris', riders:[] },
-  { id:'juan', name:'Juan F.', riders:[] },
-  { id:'jan', name:'R Team', riders:[] },
-  { id:'armstrong', name:'Armstrong', riders:[] },
-  { id:'francesca', name:'Roma Caput Mundi', riders:[] },
-  { id:'josue', name:'Josue', riders:[] },
-  { id:'rassie', name:'Rassie A.', riders:[] },
-  { id:'pieter', name:'Pieter B.', riders:[] },
 ];
 const RESULTS = {
 };
@@ -1018,7 +1010,7 @@ function renderStandings(){
       return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
       <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
     }).join('');
-    gcEl.innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Each manager\'s eight-rider squad appears here once it\'s confirmed — the board goes live with Stage 1, the Monaco time trial on 22 August.</div>';
+    gcEl.innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Entries are open. Submitted squads stay hidden until the race begins — the board goes live with Stage 1, the Monaco time trial on 22 August.</div>';
     document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
   }
   const done=completedStages.length;
@@ -1375,5 +1367,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 1786532808 -->
+<!-- deploy: 1786534147 -->
 </html>
