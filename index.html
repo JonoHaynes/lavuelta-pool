@@ -43,6 +43,24 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 
 .prov-note{margin:14px 0 4px;padding:11px 14px;border:1px solid var(--line2);border-left:3px solid var(--red);border-radius:9px;background:var(--surface2);font-size:12.5px;color:var(--muted);line-height:1.5}
 .tray-prov{font-size:11.5px;color:var(--dim);margin-top:5px}
+.capcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);max-width:620px}
+.cap-field{margin-bottom:16px}
+.cap-field>label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px}
+.cap-field select{width:100%;padding:11px 12px;border:1px solid var(--line2);border-radius:9px;background:var(--surface2);font:inherit;font-size:15px;color:var(--text)}
+.cap-riders{display:flex;flex-wrap:wrap;gap:8px}
+.cap-hintbox{font-size:13px;color:var(--dim)}
+.cap-pick{display:flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid var(--line2);border-radius:999px;background:var(--surface2);font:inherit;font-size:14px;color:var(--text);cursor:pointer;transition:.15s}
+.cap-pick:hover{border-color:var(--red)}
+.cap-pick.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.cap-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}
+.cap-foot{font-size:12.5px;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.cap-empty{font-size:14px;color:var(--muted);line-height:1.6}
+.tray-cap{display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap}
+.tray-cap>label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tray-cap select{padding:8px 11px;border:1px solid var(--line2);border-radius:8px;background:var(--surface);font:inherit;font-size:14px;color:var(--text);max-width:230px}
+.cap-hint{font-weight:600;color:var(--red);text-transform:none;letter-spacing:0}
+.rcard.is-cap{background:linear-gradient(90deg,rgba(216,35,42,.07),transparent 60%)}
+.capbadge{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 4px;border-radius:5px;background:var(--red);color:#fff;font-size:10px;font-weight:800;margin-left:6px;vertical-align:middle}
 .page{display:none;animation:fade .5s ease}
 .page.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -464,6 +482,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <a href="#standings" data-go="standings" class="active">Standings</a>
       <a href="#results" data-go="results">Results</a>
       <a href="#pick" data-go="pick">Pick Team</a>
+      <a href="#captain" data-go="captain">Captain</a>
       <a href="#rules" data-go="rules">Rules</a>
       <a href="#stages" data-go="stages">Stages</a>
       <a href="#stats" data-go="stats">Stats</a>
@@ -482,7 +501,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div>
         <div class="eyebrow">Fantasy classification</div>
         <h1>LA <span class="y">ROJA</span><br>POOL</h1>
-        <p class="sub">One squad of eight riders. Locked for all twenty-one stages. From the time trial through the streets of Monaco to the final ramp up to the Alhambra — the manager whose riders rack up the most points wears the red jersey.</p>
+        <p class="sub">One squad of eight riders, one captain who scores double. Locked for all twenty-one stages. From the time trial through the streets of Monaco to the final ramp up to the Alhambra — the manager whose riders rack up the most points wears the red jersey.</p>
         <div class="route"><span class="dot"></span>Monaco<span style="color:var(--dim)">→</span>Granada<span style="color:var(--dim)">·</span>22 Aug – 13 Sept<span style="color:var(--dim)">·</span>3,275 km</div>
       </div>
       <div class="statuscard">
@@ -514,6 +533,24 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   </section>
 </main>
 
+<main id="captain" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">Double points</div>
+    <h2 class="sec-title">Set your captain</h2>
+    <p class="lede">Each stage, one rider in your squad is captain and everything he scores that day counts double &mdash; stage placing, jersey bonuses, combativity, all of it. You name a captain when you enter, and you can change him as often as you like: pick your name, the stage the change starts from, and your new captain.</p>
+    <div class="capcard">
+      <div class="cap-empty" id="capEmpty" hidden>Squads are loaded once entries close. Until then, name your Stage&nbsp;1 captain on the <a href="#pick" data-go="pick">Pick Team</a> page.</div>
+      <div id="capForm">
+        <div class="cap-field"><label for="capManager">Your name</label><select id="capManager"><option value="">Choose&hellip;</option></select></div>
+        <div class="cap-field"><label for="capStage">Captain from stage</label><select id="capStage"></select></div>
+        <div class="cap-field"><label>New captain</label><div class="cap-riders" id="capRiders"><span class="cap-hintbox">Choose your name first.</span></div></div>
+        <div class="cap-actions"><button class="ed-btn" id="capSubmit" disabled>Send captain change</button><button class="ed-btn ed-btn-ghost" id="capCopy" disabled>Copy</button></div>
+        <div class="pick-status" id="capStatus" hidden></div>
+        <p class="cap-foot"><b>Deadline:</b> a change must be sent before that stage starts. Anything later applies from the following stage.</p>
+      </div>
+    </div>
+  </section>
+</main>
 <main id="rules" class="page">
   <section class="block wrap">
     <div class="eyebrow">House rules</div>
@@ -529,21 +566,29 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <ul><li>Teams are <b>locked for the entire race</b> — the same eight riders score on all <b>21 stages</b>.</li>
         <li><b>No transfers, no substitutions, no per-stage changes.</b> What you draft is what you ride to Granada.</li>
         <li>If one of your riders abandons, you simply lose their future points. Choose durable riders.</li></ul></div>
-      <div class="card"><h3><span class="n">3</span>Points per stage</h3>
+      <div class="card"><h3><span class="n">3</span>Your captain scores double</h3>
+        <ul><li>For every stage, one rider in your squad is your <b>captain</b>. Everything he scores that day counts <b>double</b> — stage finish points, jersey bonuses and the combativity award alike.</li>
+        <li>You name your first captain when you submit your team.</li>
+        <li>You can change captain as often as you like. A change must reach Jono <b>before that stage starts</b>; send it any later and it applies from the following stage instead.</li>
+        <li>Send changes from the <a href="#captain" data-go="captain">Captain</a> page — choose your name, the stage, and your new captain.</li>
+        <li>Your captain stays the same until you change him, so if you are happy you need do nothing.</li>
+        <li>Final classification bonuses in Granada are <b>not</b> doubled — the captain applies to stage scoring only.</li></ul>
+        </div>
+      <div class="card"><h3><span class="n">4</span>Points per stage</h3>
         <p>Each of your riders scores by where they finish the stage:</p>
         <table class="ptable"><thead><tr><th>Finish</th><th>Pts</th><th>Finish</th><th>Pts</th></tr></thead><tbody>
         <tr><td>1st</td><td>50</td><td>9th</td><td>14</td></tr><tr><td>2nd</td><td>44</td><td>10th</td><td>10</td></tr>
         <tr><td>3rd</td><td>38</td><td>11th</td><td>8</td></tr><tr><td>4th</td><td>34</td><td>12th</td><td>6</td></tr>
         <tr><td>5th</td><td>30</td><td>13th</td><td>4</td></tr><tr><td>6th</td><td>26</td><td>14th</td><td>2</td></tr>
         <tr><td>7th</td><td>22</td><td>15th</td><td>1</td></tr><tr><td>8th</td><td>18</td><td>16th+</td><td>0</td></tr></tbody></table></div>
-      <div class="card"><h3><span class="n">4</span>Jersey bonuses</h3>
+      <div class="card"><h3><span class="n">5</span>Jersey bonuses</h3>
         <p>Extra points each stage for any of your riders who <b>leads a classification</b> — awarded on the standings, even if another rider is wearing that jersey on the road:</p>
         <div class="bonus-row"><span class="sw y"></span><span class="bl"><b>Red</b> · <i>La Roja</i>, overall leader</span><span class="bv">+10</span></div>
         <div class="bonus-row"><span class="sw g"></span><span class="bl"><b>Green</b> · points leader</span><span class="bv">+6</span></div>
         <div class="bonus-row"><span class="sw p"></span><span class="bl"><b>Blue polka-dot</b> · king of the mountains</span><span class="bv">+6</span></div>
         <div class="bonus-row"><span class="sw w"></span><span class="bl"><b>White</b> · best young rider</span><span class="bv">+4</span></div>
         <p style="margin-top:12px">Plus the daily <b>most combative</b> rider — the <i>dorsal amarillo</i>, or yellow number — earns <b style="color:var(--red)">+5</b>.</p></div>
-      <div class="card"><h3><span class="n">5</span>Final bonuses in Granada</h3>
+      <div class="card"><h3><span class="n">6</span>Final bonuses in Granada</h3>
         <p>Through the three weeks your riders collect stage points as the race unfolds. When it finishes in Granada, they earn one last set of bonus points for where they place in each of the four classifications. You receive these for <b>every</b> rider in your squad who lands in a position below — added on top of everything they scored during the stages.</p>
         <p class="ptable-cap">Overall standings · <i>la roja</i></p>
         <table class="ptable"><thead><tr><th>Final position</th><th>Points</th></tr></thead><tbody>
@@ -563,19 +608,16 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <tr><td>Blue polka-dot · mountains</td><td>80</td><td>50</td><td>30</td></tr>
         <tr><td>White · young rider</td><td>60</td><td>40</td><td>20</td></tr></tbody></table>
         <p class="ptable-note">The overall winner already appears as the red jersey above, so it is not repeated here. One rider can score from both tables — for example a top-ten on general classification <i>and</i> a place in the green jersey.</p></div>
-      <div class="card"><h3><span class="n">6</span>Winning &amp; tie-breaks</h3>
+      <div class="card"><h3><span class="n">7</span>Winning &amp; tie-breaks</h3>
         <ul><li>The manager with the <b>most total points</b> after Stage 21 wins the pool and <i>la roja</i>.</li>
         <li><b>Tie-break:</b> most stage wins among owned riders, then the best single-stage points haul.</li>
         <li>Standings update the moment results are entered — the board you see is always live.</li></ul>
         </div>
-      <div class="card"><h3><span class="n">7</span>Prize pool</h3>
+      <div class="card"><h3><span class="n">8</span>Prize pool</h3>
         <ul><li><b>Entry fee:</b> 20 CHF per manager.</li>
         <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 22 August, 12:00 CEST).</li>
-        <li>The pot is the total of all entry fees — 20 CHF per manager — and is shared between the top three:</li>
-        <li><b>Winner</b> — 60% of the pot</li>
-        <li><b>2nd place</b> — 30%</li>
-        <li><b>3rd place</b> — 10%</li>
-        <li>The exact figures are confirmed once entries close on 22 August. With nine managers, for example, that is a 180 CHF pot paying 108 / 54 / 18 CHF.</li></ul>
+        <li><b>Winner takes all.</b> The whole pot goes to the manager who finishes top of the fantasy classification. There is nothing for second or third.</li>
+        <li>The pot is the total of every entry fee. With nine managers that is 180 CHF, with twelve it is 240 CHF — confirmed once entries close on 22 August.</li></ul>
         </div>
     </div>
   </section>
@@ -642,6 +684,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <div class="tray-bar"><i id="pickBar" style="width:0%"></i></div>
       </div>
       <div class="tray-chips" id="pickChips"><span class="tray-empty">No riders picked yet — tap a row below to start.</span></div>
+      <div class="tray-cap" id="pickCapWrap" hidden><label for="pickCaptain">Stage&nbsp;1 captain <span class="cap-hint">scores double</span></label><select id="pickCaptain"></select></div>
     </div>
     <div class="tray-sub">
       <div class="tray-actions">
@@ -1016,14 +1059,20 @@ function computeScores(){
   ['green','polka','white'].forEach(sec=>FINAL[sec].forEach((rid,i)=>{if(RIDERS[rid]){const p=FSEC[sec][i]||0;total[rid]+=p;brk[rid].final+=p;}}));
   return {total,daily,brk};
 }
+/* Captain: doubles that rider's stage points for the manager who named him.
+   m.captain = captain named at entry;  m.captains = {stageNo: riderId} changes,
+   each taking effect from that stage until the next change. */
+function captainFor(m,n){if(!m)return null;const c=m.captains||{};for(let st=n;st>=1;st--){if(c[st])return c[st];}return m.captain||null;}
+function captainBonus(m,st){const cap=captainFor(m,st);if(!cap||m.riders.indexOf(cap)<0)return 0;return (SC.daily[cap]&&SC.daily[cap][st])||0;}
 /* SC is computed by recompute() */
 function managerStandings(){
   const MANAGERS=DATA.MANAGERS;
-  const rows=MANAGERS.map(m=>{let tot=0,val=0,wins=0,finalPts=0;const series=completedStages.map(()=>0);
+  const rows=MANAGERS.map(m=>{let tot=0,val=0,wins=0,finalPts=0,capPts=0;const series=completedStages.map(()=>0);
     m.riders.forEach(rid=>{tot+=SC.total[rid]||0;val+=(RIDERS[rid]?RIDERS[rid].val:0);finalPts+=SC.brk[rid]?SC.brk[rid].final:0;wins+=SC.brk[rid]?SC.brk[rid].wins:0;
       completedStages.forEach((s,i)=>{series[i]+=(SC.daily[rid]&&SC.daily[rid][s])||0;});});
+    completedStages.forEach((s,i)=>{const b=captainBonus(m,s);if(b){tot+=b;capPts+=b;series[i]+=b;}});
     let cum=0;const cumSeries=series.map(v=>cum+=v);
-    return {m,tot,val,wins,finalPts,series,cumSeries,today:series.length?series[series.length-1]:0,best:series.length?Math.max(...series):0};});
+    return {m,tot,val,wins,finalPts,capPts,series,cumSeries,today:series.length?series[series.length-1]:0,best:series.length?Math.max(...series):0};});
   rows.sort((a,b)=>b.tot-a.tot||b.wins-a.wins||b.best-a.best||a.m.name.localeCompare(b.m.name));
   const lead=rows.length?rows[0].tot:0; rows.forEach((r,i)=>{r.pos=i+1;r.gap=lead-r.tot;});
   return rows;
@@ -1096,7 +1145,7 @@ function stageViewHTML(sN){
     return '<div class="rrow"><span class="rpos">'+(i+1)+'</span><span class="flag">'+(r?r.flag:'')+'</span><span class="rrn">'+(r?r.name:rid)+(ow?'<span class="owned-tag">'+ow.join(' · ')+'</span>':'')+'</span><span class="rrt">'+(r?r.team:'')+'</span><span class="rrp">'+(pts?'+'+pts:'')+'</span></div>';}).join('');
   const jdefs=[['red','Red'],['green','Green'],['polka','Polka'],['white','White'],['combativity','Combative']];
   const jrow=jdefs.map(function(a){var k=a[0],lab=a[1],rid=res[k];if(!rid)return '';var r=RIDERS[rid];return '<span class="jpill '+k+'">'+lab+': <b>'+(r?r.name:rid)+'</b></span>';}).join('');
-  const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];m.riders.forEach(rid=>{const d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
+  const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];const cap=captainFor(m,sN);m.riders.forEach(rid=>{let d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){const isC=(rid===cap);if(isC)d*=2;p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+(isC?' (C)':'')+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
   const mtable=mpts.map(m=>'<div class="mrow"><span class="mn2">'+m.name+'</span><span class="msc">'+(m.sc.length?m.sc.join(', '):'—')+'</span><span class="mp">+'+m.p+'</span></div>').join('');
   return '<div class="rcard2"><div class="rc-head"><div><div class="sd-date">'+o.date+' · Stage '+o.n+'</div><h3 class="rc-title">'+o.from+' → '+o.to+'</h3></div><span class="tbadge t-'+o.type+'">'+(o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type)+'</span></div><div class="rc-jerseys">'+jrow+'</div><div class="rc-grid"><div class="rc-col"><h4>Stage result &mdash; who won</h4>'+fin+'</div><div class="rc-col"><h4>Manager points this stage</h4>'+mtable+'</div></div></div>';
 }
@@ -1112,9 +1161,11 @@ function renderStandings(){
     gcEl.classList.remove('stage-view');
     const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
     const body=rows.map(r=>{
-      const mini=r.m.riders.map(id=>RIDERS[id]?RIDERS[id].name.split(' ').slice(-1)[0]:id).join(' · ');
+      const capNow=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
+      const mini=r.m.riders.map(id=>RIDERS[id]?(RIDERS[id].name.split(' ').slice(-1)[0]+(id===capNow?' (C)':'')):id).join(' · ');
+      const curCap=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
       const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
-        return `<div class="rcard" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
+        return `<div class="rcard${id===curCap?' is-cap':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
       const overCap=r.val>100?' style="color:var(--polka)"':'';
       return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
       <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
@@ -1186,21 +1237,29 @@ function renderTray(){
   const bar=document.getElementById('pickBar');if(bar){bar.style.width=Math.min(100,val/BUDGET*100)+'%';bar.classList.toggle('over',over);}
   const chips=document.getElementById('pickChips');
   if(chips)chips.innerHTML=n?pickSet.map(id=>{const r=RIDERS[id];return `<span class="tchip"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.name}<b>${r.val}</b><button data-rm="${id}" aria-label="Remove ${r.name}">✕</button></span>`;}).join(''):'<span class="tray-empty">No riders picked yet — tap a row below to start.</span>';
+  const capWrap=document.getElementById('pickCapWrap'),capSel=document.getElementById('pickCaptain');
+  if(capWrap&&capSel){capWrap.hidden=n===0;
+    const prev=capSel.value;
+    capSel.innerHTML='<option value="">Choose your captain…</option>'+pickSet.map(id=>`<option value="${id}">${RIDERS[id].name}</option>`).join('');
+    if(pickSet.includes(prev))capSel.value=prev;}
+  const captain=capSel?capSel.value:'';
   const nameEl=document.getElementById('pickName'),name=nameEl?nameEl.value.trim():'';
-  const valid=name&&n===SQUAD_MAX&&!over;
+  const valid=name&&n===SQUAD_MAX&&!over&&!!captain&&pickSet.includes(captain);
   const copy=document.getElementById('pickCopy');if(copy)copy.disabled=!valid;
   const sub=document.getElementById('pickSubmit');if(sub){sub.disabled=!valid;if(valid)sub.textContent='Submit team';}
   const note=document.getElementById('pickNote');
   if(note){if(over)note.innerHTML='<span class="warn">Over budget by '+(val-BUDGET)+' credits — swap someone cheaper in.</span>';
     else if(n<SQUAD_MAX)note.innerHTML='Pick '+(SQUAD_MAX-n)+' more rider'+(SQUAD_MAX-n===1?'':'s')+' to complete your squad of eight.';
-    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used. Add your name, then submit your team.</span>';}
+    else if(!captain)note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used.</span> Now name your Stage&nbsp;1 captain above.';
+    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used, '+RIDERS[captain].name+' as captain. Add your name, then submit.</span>';}
 }
 function pickToggle(id){if(!RIDERS[id])return;const i=pickSet.indexOf(id);if(i>=0)pickSet.splice(i,1);else{if(pickSet.length>=SQUAD_MAX)return;pickSet.push(id);}renderPick();}
 function headerSortPick(th){const key=th.dataset.key;if(!key)return;const type=th.dataset.type||'txt';if(pickSort.key===key)pickSort.dir=pickSort.dir==='asc'?'desc':'asc';else pickSort={key,dir:type==='num'?'desc':'asc'};renderPick();}
 function pickCopyTeam(){
   const nameEl=document.getElementById('pickName'),name=(nameEl&&nameEl.value.trim())||'(no name)';
   const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
-  const txt='🚴 La Roja Pool — squad entry\nManager: '+name+'\nRiders ('+pickSet.length+'): '+names.join(', ')+'\nBudget: '+val+' / 100\nids: '+pickSet.join(', ');
+  const capEl=document.getElementById('pickCaptain'),cap=capEl?capEl.value:'';
+  const txt='🚴 La Roja Pool — squad entry\nManager: '+name+'\nRiders ('+pickSet.length+'): '+names.join(', ')+'\nBudget: '+val+' / 100\nCaptain (stage 1): '+(cap&&RIDERS[cap]?RIDERS[cap].name:'—')+'\nids: '+pickSet.join(', ')+'\ncaptain: '+cap;
   const done=()=>edToast('Team copied — send it over to lock it in');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy your team and send it:',txt);});
   else window.prompt('Copy your team and send it:',txt);
@@ -1209,10 +1268,11 @@ const W3F_KEY='325dd786-41d5-4213-99fa-ff4646f2703f';
 function pickStatus(txt,kind){const el=document.getElementById('pickStatus');if(!el)return;el.textContent=txt;el.className='pick-status '+kind;el.hidden=false;}
 async function pickSubmit(){
   const nameEl=document.getElementById('pickName'),name=(nameEl&&nameEl.value.trim())||'';
-  if(!(name&&pickSet.length===SQUAD_MAX&&pickVal()<=BUDGET)){pickStatus('Add your name and a full squad of '+SQUAD_MAX+' riders within budget first.','err');return;}
+  const capEl=document.getElementById('pickCaptain'),cap=capEl?capEl.value:'';
+  if(!(name&&pickSet.length===SQUAD_MAX&&pickVal()<=BUDGET&&cap&&pickSet.includes(cap))){pickStatus('Add your name, a full squad of '+SQUAD_MAX+' riders within budget, and a captain first.','err');return;}
   const btn=document.getElementById('pickSubmit');
   const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
-  const msg='Manager: '+name+'\nBudget: '+val+' / '+BUDGET+'\n\nRiders ('+pickSet.length+'):\n'+names.map((x,i)=>(i+1)+'. '+x).join('\n')+'\n\nids: '+pickSet.join(', ');
+  const msg='Manager: '+name+'\nBudget: '+val+' / '+BUDGET+'\nCaptain (stage 1): '+RIDERS[cap].name+'\n\nRiders ('+pickSet.length+'):\n'+names.map((x,i)=>(i+1)+'. '+x+(pickSet[i]===cap?'   << CAPTAIN':'')).join('\n')+'\n\nids: '+pickSet.join(', ')+'\ncaptain: '+cap;
   btn.disabled=true;btn.textContent='Submitting…';pickStatus('Sending your team…','pending');
   try{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'La Roja Pool entry — '+name,from_name:'La Roja Pool',name:name,message:msg})});
@@ -1258,7 +1318,7 @@ function renderResults(){
       return `<div class="rrow"><span class="rpos">${i+1}</span><span class="flag">${r?r.flag:''}</span><span class="rrn">${r?r.name:rid}${ow?`<span class="owned-tag">${ow.join(' · ')}</span>`:''}</span><span class="rrt">${r?r.team:''}</span><span class="rrp">${pts?'+'+pts:''}</span></div>`;}).join('');
     const jdefs=[['red','Red'],['green','Green'],['polka','Polka'],['white','White'],['combativity','Combative']];
     const jrow=jdefs.map(([k,lab])=>{const rid=res[k];if(!rid)return '';const r=RIDERS[rid];return `<span class="jpill ${k}">${lab}: <b>${r?r.name:rid}</b></span>`;}).join('');
-    const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];m.riders.forEach(rid=>{const d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
+    const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];const cap=captainFor(m,sN);m.riders.forEach(rid=>{let d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){const isC=(rid===cap);if(isC)d*=2;p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+(isC?' (C)':'')+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
     const mtable=mpts.map(m=>`<div class="mrow"><span class="mn2">${m.name}</span><span class="msc">${m.sc.length?m.sc.join(', '):'—'}</span><span class="mp">+${m.p}</span></div>`).join('');
     html+=`<div class="rcard2"><div class="rc-head"><div><div class="sd-date">${o.date} · Stage ${o.n}</div><h3 class="rc-title">${o.from} → ${o.to}</h3></div><span class="tbadge t-${o.type}">${o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</span></div>
       <p class="rc-recap">${stageRecap(order,idx)}</p><div class="rc-jerseys">${jrow}</div>
@@ -1374,12 +1434,72 @@ function buildEditor(){
 }
 function renderAll(){renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
 
-const PAGES=['standings','results','pick','rules','stages','stats'];
-function go(id){if(!PAGES.includes(id))id='standings';PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
+const PAGES=['standings','results','pick','captain','rules','stages','stats'];
+function go(id){if(!PAGES.includes(id))id='standings';if(id==='captain')setTimeout(renderCaptainPage,0);PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
   document.querySelectorAll('nav.tabs a').forEach(a=>a.classList.toggle('active',a.dataset.go===id));
   document.getElementById('tabs').classList.remove('open');if(history.replaceState)history.replaceState(null,'','#'+id);else location.hash=id;window.scrollTo({top:0});}
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.go);}));
 document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('tabs').classList.toggle('open'));
+
+/* ---------- captain change ---------- */
+let capSel={mgr:'',stage:0,rider:''};
+function capNextStage(){return Math.min(completedStages.length+1,21);}
+function renderCaptainPage(){
+  const mgrSel=document.getElementById('capManager');if(!mgrSel)return;
+  const has=DATA.MANAGERS.length>0;
+  const emptyEl=document.getElementById('capEmpty'),formEl=document.getElementById('capForm');
+  if(emptyEl)emptyEl.hidden=has; if(formEl)formEl.hidden=!has;
+  if(!has)return;
+  if(mgrSel.options.length<=1)mgrSel.innerHTML='<option value="">Choose\u2026</option>'+DATA.MANAGERS.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  const stSel=document.getElementById('capStage');
+  if(stSel&&!stSel.options.length){const from=capNextStage();let o='';for(let i=from;i<=21;i++){const st=stageObj(STAGES[i-1]);o+=`<option value="${i}">Stage ${i} \u2014 ${st.from} \u2192 ${st.to}</option>`;}stSel.innerHTML=o;capSel.stage=from;}
+  const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr);
+  const box=document.getElementById('capRiders');
+  if(box){
+    if(!m)box.innerHTML='<span class="cap-hintbox">Choose your name first.</span>';
+    else{const cur=captainFor(m,capSel.stage||capNextStage());
+      box.innerHTML=m.riders.map(id=>{const r=RIDERS[id];if(!r)return '';
+        return `<button class="cap-pick${capSel.rider===id?' on':''}" data-cap="${id}">${r.name}${id===cur?'<span class="capbadge">C</span>':''}</button>`;}).join('');}}
+  const ok=!!(capSel.mgr&&capSel.stage&&capSel.rider);
+  const sb=document.getElementById('capSubmit'),cb=document.getElementById('capCopy');
+  if(sb)sb.disabled=!ok; if(cb)cb.disabled=!ok;
+}
+function capMessage(){
+  const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr),r=RIDERS[capSel.rider];
+  if(!m||!r)return '';
+  return 'CAPTAIN CHANGE\nManager: '+m.name+'\nFrom stage: '+capSel.stage+'\nNew captain: '+r.name+' ('+r.team+')\n\ncaptain: '+m.id+' | stage '+capSel.stage+' | '+capSel.rider;
+}
+function capStatus(txt,kind){const el=document.getElementById('capStatus');if(!el)return;el.textContent=txt;el.className='pick-status '+kind;el.hidden=false;}
+async function capSubmit(){
+  const msg=capMessage();if(!msg){capStatus('Choose your name, a stage and a captain first.','err');return;}
+  const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr);
+  const btn=document.getElementById('capSubmit');
+  btn.disabled=true;btn.textContent='Sending\u2026';capStatus('Sending your captain change\u2026','pending');
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'La Roja Pool captain \u2014 '+m.name+' \u2014 stage '+capSel.stage,from_name:'La Roja Pool',name:m.name,message:msg})});
+    const data=await res.json().catch(()=>({}));
+    if(res.ok&&data.success){btn.textContent='Sent \u2713';capStatus('Captain change sent. It applies from Stage '+capSel.stage+', provided that stage has not started.','ok');}
+    else{btn.disabled=false;btn.textContent='Send captain change';capStatus('Could not send automatically'+(data.message?' ('+data.message+')':'')+'. Tap Copy and send it to Jono directly.','err');}
+  }catch(e){btn.disabled=false;btn.textContent='Send captain change';capStatus('Network problem \u2014 could not send. Tap Copy and send it to Jono directly.','err');}
+}
+function capCopy(){
+  const txt=capMessage();if(!txt)return;
+  const done=()=>edToast('Captain change copied \u2014 send it to Jono');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy and send this:',txt);});
+  else window.prompt('Copy and send this:',txt);
+}
+document.addEventListener('change',e=>{
+  if(e.target.id==='capManager'){capSel.mgr=e.target.value;capSel.rider='';renderCaptainPage();}
+  else if(e.target.id==='capStage'){capSel.stage=parseInt(e.target.value,10)||0;renderCaptainPage();}
+  else if(e.target.id==='pickCaptain'){renderTray();}
+});
+document.addEventListener('click',e=>{
+  const cp=e.target.closest&&e.target.closest('[data-cap]');
+  if(cp){capSel.rider=cp.getAttribute('data-cap');renderCaptainPage();return;}
+  if(e.target.id==='capSubmit'){capSubmit();return;}
+  if(e.target.id==='capCopy'){capCopy();return;}
+});
+
 window.addEventListener('hashchange',()=>go(location.hash.replace('#','')));
 document.querySelectorAll('#ridersHead th[data-key]').forEach(th=>{th.setAttribute('tabindex','0');th.addEventListener('click',e=>headerSort(th,e));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();headerSort(th,e);}});});
 document.getElementById('riderSearch').addEventListener('input',e=>{riderFilter.q=e.target.value;renderRiders();});
@@ -1476,5 +1596,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 1787209450 -->
+<!-- deploy: 1787234080 -->
 </html>
