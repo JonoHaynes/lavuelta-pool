@@ -43,6 +43,26 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 
 .prov-note{margin:14px 0 4px;padding:11px 14px;border:1px solid var(--line2);border-left:3px solid var(--red);border-radius:9px;background:var(--surface2);font-size:12.5px;color:var(--muted);line-height:1.5}
 .tray-prov{font-size:11.5px;color:var(--dim);margin-top:5px}
+.cplan-wrap{margin:22px 0 8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.cplan-title{font-family:var(--display);font-size:19px;margin:0 0 5px}
+.cplan-sub{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:60ch}
+.cplan-quick{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cplan-quick>label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cplan-quick select{padding:8px 11px;border:1px solid var(--line2);border-radius:8px;background:var(--surface2);font:inherit;font-size:14px;color:var(--text)}
+.cplan-tally{font-size:12px;color:var(--dim);font-family:var(--mono)}
+.cplan{border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.cplan-row{display:flex;align-items:center;gap:10px;padding:8px 11px;border-bottom:1px solid var(--line);background:var(--surface)}
+.cplan-row:nth-child(even){background:var(--surface2)}
+.cplan-row:last-child{border-bottom:0}
+.cplan-row.done{opacity:.42}
+.cplan-n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted);min-width:20px;text-align:right}
+.cplan-tag{font-size:9px !important;padding:2px 5px !important}
+.cplan-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.cplan-rt{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cplan-dt{font-size:10.5px;color:var(--dim)}
+.cplan-sel{padding:6px 9px;border:1px solid var(--line2);border-radius:7px;background:var(--surface);font:inherit;font-size:13px;color:var(--text);max-width:170px}
+.cplan-locked{font-size:12.5px;color:var(--muted);font-style:italic}
+@media(max-width:560px){.cplan-sel{max-width:118px;font-size:12px;padding:5px 6px}.cplan-rt{font-size:11.5px}.cplan-info{flex:1}}
 .capcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);max-width:620px}
 .cap-field{margin-bottom:16px}
 .cap-field>label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px}
@@ -501,7 +521,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div>
         <div class="eyebrow">Fantasy classification</div>
         <h1>LA <span class="y">ROJA</span><br>POOL</h1>
-        <p class="sub">One squad of eight riders, one captain who scores double. Locked for all twenty-one stages. From the time trial through the streets of Monaco to the final ramp up to the Alhambra — the manager whose riders rack up the most points wears the red jersey.</p>
+        <p class="sub">One squad of eight riders, and a captain for every stage who scores double. Locked for all twenty-one stages. From the time trial through the streets of Monaco to the final ramp up to the Alhambra — the manager whose riders rack up the most points wears the red jersey.</p>
         <div class="route"><span class="dot"></span>Monaco<span style="color:var(--dim)">→</span>Granada<span style="color:var(--dim)">·</span>22 Aug – 13 Sept<span style="color:var(--dim)">·</span>3,275 km</div>
       </div>
       <div class="statuscard">
@@ -536,17 +556,23 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
 <main id="captain" class="page">
   <section class="block wrap">
     <div class="eyebrow">Double points</div>
-    <h2 class="sec-title">Set your captain</h2>
-    <p class="lede">Each stage, one rider in your squad is captain and everything he scores that day counts double &mdash; stage placing, jersey bonuses, combativity, all of it. You name a captain when you enter, and you can change him as often as you like: pick your name, the stage the change starts from, and your new captain.</p>
+    <h2 class="sec-title">Your captains</h2>
+    <p class="lede">Every stage has its own captain, and everything he scores that day counts double &mdash; stage placing, jersey bonuses, combativity, all of it. Plan all twenty-one in advance, or change a single stage whenever you like. Nothing needs doing day to day.</p>
     <div class="capcard">
-      <div class="cap-empty" id="capEmpty" hidden>Squads are loaded once entries close. Until then, name your Stage&nbsp;1 captain on the <a href="#pick" data-go="pick">Pick Team</a> page.</div>
+      <div class="cap-empty" id="capEmpty" hidden>Squads are loaded once entries close. Until then, set your stage captains on the <a href="#pick" data-go="pick">Pick Team</a> page as you build your squad.</div>
       <div id="capForm">
         <div class="cap-field"><label for="capManager">Your name</label><select id="capManager"><option value="">Choose&hellip;</option></select></div>
-        <div class="cap-field"><label for="capStage">Captain from stage</label><select id="capStage"></select></div>
-        <div class="cap-field"><label>New captain</label><div class="cap-riders" id="capRiders"><span class="cap-hintbox">Choose your name first.</span></div></div>
-        <div class="cap-actions"><button class="ed-btn" id="capSubmit" disabled>Send captain change</button><button class="ed-btn ed-btn-ghost" id="capCopy" disabled>Copy</button></div>
-        <div class="pick-status" id="capStatus" hidden></div>
-        <p class="cap-foot"><b>Deadline:</b> a change must be sent before that stage starts. Anything later applies from the following stage.</p>
+        <div id="capPlanArea" hidden>
+          <div class="cplan-quick">
+            <label for="capPlanAll">Set every remaining stage to</label>
+            <select id="capPlanAll"></select>
+            <span class="cplan-tally" id="capPlanTally"></span>
+          </div>
+          <div class="cplan" id="capPlanRows"></div>
+          <div class="cap-actions"><button class="ed-btn" id="capSubmit" disabled>Send captain plan</button><button class="ed-btn ed-btn-ghost" id="capCopy" disabled>Copy</button></div>
+          <div class="pick-status" id="capStatus" hidden></div>
+          <p class="cap-foot"><b>Deadline:</b> changes must be sent before the stage in question starts. Stages already raced are locked and shown greyed out.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -567,11 +593,10 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <li><b>No transfers, no substitutions, no per-stage changes.</b> What you draft is what you ride to Granada.</li>
         <li>If one of your riders abandons, you simply lose their future points. Choose durable riders.</li></ul></div>
       <div class="card"><h3><span class="n">3</span>Your captain scores double</h3>
-        <ul><li>For every stage, one rider in your squad is your <b>captain</b>. Everything he scores that day counts <b>double</b> — stage finish points, jersey bonuses and the combativity award alike.</li>
-        <li>You name your first captain when you submit your team.</li>
-        <li>You can change captain as often as you like. A change must reach Jono <b>before that stage starts</b>; send it any later and it applies from the following stage instead.</li>
-        <li>Send changes from the <a href="#captain" data-go="captain">Captain</a> page — choose your name, the stage, and your new captain.</li>
-        <li>Your captain stays the same until you change him, so if you are happy you need do nothing.</li>
+        <ul><li>Every stage has a <b>captain</b> — one rider from your squad whose points that day count <b>double</b>. Stage finish points, jersey bonuses and the combativity award all double.</li>
+        <li><b>Each stage has its own captain.</b> Set all twenty-one in advance when you enter — a climber for the summit finishes, a sprinter for the flat days, a time trialist for Monaco and Jerez.</li>
+        <li>You do not have to change anything day to day. Your plan stands until you change it.</li>
+        <li>Change any stage, any time, from the <a href="#captain" data-go="captain">Captain</a> page — a change must arrive before that stage starts. Stages already raced are locked.</li>
         <li>Final classification bonuses in Granada are <b>not</b> doubled — the captain applies to stage scoring only.</li></ul>
         </div>
       <div class="card"><h3><span class="n">4</span>Points per stage</h3>
@@ -684,7 +709,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <div class="tray-bar"><i id="pickBar" style="width:0%"></i></div>
       </div>
       <div class="tray-chips" id="pickChips"><span class="tray-empty">No riders picked yet — tap a row below to start.</span></div>
-      <div class="tray-cap" id="pickCapWrap" hidden><label for="pickCaptain">Stage&nbsp;1 captain <span class="cap-hint">scores double</span></label><select id="pickCaptain"></select></div>
+      <div class="tray-cap" id="pickCapWrap" hidden><label for="pickCaptain">Default captain <span class="cap-hint">scores double</span></label><select id="pickCaptain"></select></div>
     </div>
     <div class="tray-sub">
       <div class="tray-actions">
@@ -699,6 +724,19 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div class="tray-deadline"><b>Deadline:</b> submit your team and pay the 20 CHF entry fee before Stage 1 starts (Sat 22 August, 12:00 CEST).</div>
       <div class="tray-privacy">Submitted teams stay hidden until Stage 1 begins — no one can pick based on another manager's choices.</div>
     </div>
+
+      <div class="cplan-wrap" id="pickPlanWrap" hidden>
+        <div class="cplan-head">
+          <div><h3 class="cplan-title">Your captains, stage by stage</h3>
+          <p class="cplan-sub">Every stage has its own captain and scores double. Set all 21 now — a climber for the mountains, a sprinter for the flat days. Change them later from the Captain page whenever you like.</p></div>
+        </div>
+        <div class="cplan-quick">
+          <label for="pickPlanAll">Set every stage to</label>
+          <select id="pickPlanAll"></select>
+          <span class="cplan-tally" id="pickPlanTally"></span>
+        </div>
+        <div class="cplan" id="pickPlanRows"></div>
+      </div>
 
     <div class="controls">
       <label class="search">
@@ -1251,7 +1289,24 @@ function renderTray(){
   if(note){if(over)note.innerHTML='<span class="warn">Over budget by '+(val-BUDGET)+' credits — swap someone cheaper in.</span>';
     else if(n<SQUAD_MAX)note.innerHTML='Pick '+(SQUAD_MAX-n)+' more rider'+(SQUAD_MAX-n===1?'':'s')+' to complete your squad of eight.';
     else if(!captain)note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used.</span> Now name your Stage&nbsp;1 captain above.';
-    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used, '+RIDERS[captain].name+' as captain. Add your name, then submit.</span>';}
+    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used, '+RIDERS[captain].name+' as default captain. Set your stage captains below, then submit.</span>';}
+  renderPickPlan();
+}
+
+let pickPlan={};
+function pickPlanDefault(){const capSel=document.getElementById('pickCaptain');return capSel?capSel.value:'';}
+function renderPickPlan(){
+  const wrap=document.getElementById('pickPlanWrap');if(!wrap)return;
+  const ready=pickSet.length===SQUAD_MAX;
+  wrap.hidden=!ready;
+  if(!ready)return;
+  /* drop any captain no longer in the squad, fill gaps with the default */
+  const def=pickPlanDefault()||pickSet[0];
+  for(let i=1;i<=21;i++){if(!pickPlan[i]||!pickSet.includes(pickPlan[i]))pickPlan[i]=def;}
+  const allSel=document.getElementById('pickPlanAll');
+  if(allSel)allSel.innerHTML='<option value="">—</option>'+pickSet.map(id=>`<option value="${id}">${RIDERS[id].name}</option>`).join('');
+  document.getElementById('pickPlanRows').innerHTML=planRows(pickSet,pickPlan,{});
+  const t=document.getElementById('pickPlanTally');if(t)t.textContent=planCounts(pickPlan,0);
 }
 function pickToggle(id){if(!RIDERS[id])return;const i=pickSet.indexOf(id);if(i>=0)pickSet.splice(i,1);else{if(pickSet.length>=SQUAD_MAX)return;pickSet.push(id);}renderPick();}
 function headerSortPick(th){const key=th.dataset.key;if(!key)return;const type=th.dataset.type||'txt';if(pickSort.key===key)pickSort.dir=pickSort.dir==='asc'?'desc':'asc';else pickSort={key,dir:type==='num'?'desc':'asc'};renderPick();}
@@ -1259,7 +1314,8 @@ function pickCopyTeam(){
   const nameEl=document.getElementById('pickName'),name=(nameEl&&nameEl.value.trim())||'(no name)';
   const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
   const capEl=document.getElementById('pickCaptain'),cap=capEl?capEl.value:'';
-  const txt='🚴 La Roja Pool — squad entry\nManager: '+name+'\nRiders ('+pickSet.length+'): '+names.join(', ')+'\nBudget: '+val+' / 100\nCaptain (stage 1): '+(cap&&RIDERS[cap]?RIDERS[cap].name:'—')+'\nids: '+pickSet.join(', ')+'\ncaptain: '+cap;
+  const txt='🚴 La Roja Pool — squad entry\nManager: '+name+'\nRiders ('+pickSet.length+'): '+names.join(', ')+'\nBudget: '+val+' / 100\nDefault captain: '+(cap&&RIDERS[cap]?RIDERS[cap].name:'—')
+    +'\n\nCAPTAIN PER STAGE:\n'+planText(pickPlan,0)+'\n\nids: '+pickSet.join(', ')+'\ncaptain: '+cap+'\nschedule: '+planCompact(pickPlan,0);
   const done=()=>edToast('Team copied — send it over to lock it in');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy your team and send it:',txt);});
   else window.prompt('Copy your team and send it:',txt);
@@ -1272,7 +1328,9 @@ async function pickSubmit(){
   if(!(name&&pickSet.length===SQUAD_MAX&&pickVal()<=BUDGET&&cap&&pickSet.includes(cap))){pickStatus('Add your name, a full squad of '+SQUAD_MAX+' riders within budget, and a captain first.','err');return;}
   const btn=document.getElementById('pickSubmit');
   const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
-  const msg='Manager: '+name+'\nBudget: '+val+' / '+BUDGET+'\nCaptain (stage 1): '+RIDERS[cap].name+'\n\nRiders ('+pickSet.length+'):\n'+names.map((x,i)=>(i+1)+'. '+x+(pickSet[i]===cap?'   << CAPTAIN':'')).join('\n')+'\n\nids: '+pickSet.join(', ')+'\ncaptain: '+cap;
+  const msg='Manager: '+name+'\nBudget: '+val+' / '+BUDGET+'\nDefault captain: '+RIDERS[cap].name+'\n\nRiders ('+pickSet.length+'):\n'+names.map((x,i)=>(i+1)+'. '+x).join('\n')
+    +'\n\nCAPTAIN PER STAGE:\n'+planText(pickPlan,0)
+    +'\n\nids: '+pickSet.join(', ')+'\ncaptain: '+cap+'\nschedule: '+planCompact(pickPlan,0);
   btn.disabled=true;btn.textContent='Submitting…';pickStatus('Sending your team…','pending');
   try{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'La Roja Pool entry — '+name,from_name:'La Roja Pool',name:name,message:msg})});
@@ -1441,9 +1499,42 @@ function go(id){if(!PAGES.includes(id))id='standings';if(id==='captain')setTimeo
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.go);}));
 document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('tabs').classList.toggle('open'));
 
-/* ---------- captain change ---------- */
-let capSel={mgr:'',stage:0,rider:''};
-function capNextStage(){return Math.min(completedStages.length+1,21);}
+
+/* ---------- captain plan (one captain per stage, set in advance) ---------- */
+function stageShort(i){const o=stageObj(STAGES[i-1]);return {n:i,type:o.type,date:o.date,from:o.from,to:o.to,
+  tag:o.type==='itt'?'ITT':o.type==='mountain'?'MTN':o.type==='hilly'?'HILL':'FLAT'};}
+function planRows(riders,plan,opts){
+  opts=opts||{};
+  const lockBefore=opts.lockBefore||0;
+  return Array.from({length:21},(_,k)=>k+1).map(i=>{
+    const st=stageShort(i),locked=i<=lockBefore;
+    const sel=riders.map(id=>`<option value="${id}"${plan[i]===id?' selected':''}>${RIDERS[id]?RIDERS[id].name:id}</option>`).join('');
+    return `<div class="cplan-row${locked?' done':''}">
+      <span class="cplan-n">${i}</span>
+      <span class="tbadge t-${st.type} cplan-tag">${st.tag}</span>
+      <span class="cplan-info"><span class="cplan-rt">${st.from} → ${st.to}</span><span class="cplan-dt">${st.date}</span></span>
+      ${locked?`<span class="cplan-locked">${plan[i]&&RIDERS[plan[i]]?RIDERS[plan[i]].name:'—'}</span>`
+              :`<select class="cplan-sel" data-plan="${i}">${sel}</select>`}
+    </div>`;}).join('');
+}
+function planText(plan,lockBefore){
+  const lines=[];for(let i=(lockBefore||0)+1;i<=21;i++){const st=stageShort(i);
+    lines.push(String(i).padStart(2,' ')+'. '+st.tag.padEnd(4,' ')+'  '+st.from+' → '+st.to+'  —  '+(plan[i]&&RIDERS[plan[i]]?RIDERS[plan[i]].name:'—'));}
+  return lines.join('\n');
+}
+function planCompact(plan,lockBefore){
+  const bits=[];for(let i=(lockBefore||0)+1;i<=21;i++){if(plan[i])bits.push(i+'='+plan[i]);}
+  return bits.join(',');
+}
+function planCounts(plan,lockBefore){
+  const c={};for(let i=(lockBefore||0)+1;i<=21;i++){if(plan[i])c[plan[i]]=(c[plan[i]]||0)+1;}
+  return Object.keys(c).sort((a,b)=>c[b]-c[a]).map(id=>(RIDERS[id]?RIDERS[id].name.split(' ').pop():id)+' ×'+c[id]).join(' · ');
+}
+
+
+/* ---------- captain plan editor ---------- */
+let capSel={mgr:'',plan:{}};
+function capLockBefore(){return completedStages.length?Math.max.apply(null,completedStages):0;}
 function renderCaptainPage(){
   const mgrSel=document.getElementById('capManager');if(!mgrSel)return;
   const has=DATA.MANAGERS.length>0;
@@ -1451,51 +1542,57 @@ function renderCaptainPage(){
   if(emptyEl)emptyEl.hidden=has; if(formEl)formEl.hidden=!has;
   if(!has)return;
   if(mgrSel.options.length<=1)mgrSel.innerHTML='<option value="">Choose\u2026</option>'+DATA.MANAGERS.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
-  const stSel=document.getElementById('capStage');
-  if(stSel&&!stSel.options.length){const from=capNextStage();let o='';for(let i=from;i<=21;i++){const st=stageObj(STAGES[i-1]);o+=`<option value="${i}">Stage ${i} \u2014 ${st.from} \u2192 ${st.to}</option>`;}stSel.innerHTML=o;capSel.stage=from;}
   const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr);
-  const box=document.getElementById('capRiders');
-  if(box){
-    if(!m)box.innerHTML='<span class="cap-hintbox">Choose your name first.</span>';
-    else{const cur=captainFor(m,capSel.stage||capNextStage());
-      box.innerHTML=m.riders.map(id=>{const r=RIDERS[id];if(!r)return '';
-        return `<button class="cap-pick${capSel.rider===id?' on':''}" data-cap="${id}">${r.name}${id===cur?'<span class="capbadge">C</span>':''}</button>`;}).join('');}}
-  const ok=!!(capSel.mgr&&capSel.stage&&capSel.rider);
+  const area=document.getElementById('capPlanArea');
+  if(area)area.hidden=!m;
+  if(!m)return;
+  const lock=capLockBefore();
+  for(let i=1;i<=21;i++){if(!capSel.plan[i]||m.riders.indexOf(capSel.plan[i])<0)capSel.plan[i]=captainFor(m,i)||m.riders[0];}
+  const allSel=document.getElementById('capPlanAll');
+  if(allSel&&!allSel.options.length)allSel.innerHTML='<option value="">\u2014</option>'+m.riders.map(id=>`<option value="${id}">${RIDERS[id]?RIDERS[id].name:id}</option>`).join('');
+  document.getElementById('capPlanRows').innerHTML=planRows(m.riders,capSel.plan,{lockBefore:lock});
+  const t=document.getElementById('capPlanTally');if(t)t.textContent=planCounts(capSel.plan,lock);
   const sb=document.getElementById('capSubmit'),cb=document.getElementById('capCopy');
-  if(sb)sb.disabled=!ok; if(cb)cb.disabled=!ok;
+  if(sb)sb.disabled=false; if(cb)cb.disabled=false;
 }
 function capMessage(){
-  const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr),r=RIDERS[capSel.rider];
-  if(!m||!r)return '';
-  return 'CAPTAIN CHANGE\nManager: '+m.name+'\nFrom stage: '+capSel.stage+'\nNew captain: '+r.name+' ('+r.team+')\n\ncaptain: '+m.id+' | stage '+capSel.stage+' | '+capSel.rider;
+  const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr);if(!m)return '';
+  const lock=capLockBefore();
+  return 'CAPTAIN PLAN\nManager: '+m.name+'\nApplies from stage '+(lock+1)+' onward\n\n'+planText(capSel.plan,lock)
+    +'\n\nschedule: '+m.id+' | '+planCompact(capSel.plan,lock);
 }
 function capStatus(txt,kind){const el=document.getElementById('capStatus');if(!el)return;el.textContent=txt;el.className='pick-status '+kind;el.hidden=false;}
 async function capSubmit(){
-  const msg=capMessage();if(!msg){capStatus('Choose your name, a stage and a captain first.','err');return;}
+  const msg=capMessage();if(!msg){capStatus('Choose your name first.','err');return;}
   const m=DATA.MANAGERS.find(x=>x.id===capSel.mgr);
   const btn=document.getElementById('capSubmit');
-  btn.disabled=true;btn.textContent='Sending\u2026';capStatus('Sending your captain change\u2026','pending');
+  btn.disabled=true;btn.textContent='Sending\u2026';capStatus('Sending your captain plan\u2026','pending');
   try{
-    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'La Roja Pool captain \u2014 '+m.name+' \u2014 stage '+capSel.stage,from_name:'La Roja Pool',name:m.name,message:msg})});
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'La Roja Pool captains \u2014 '+m.name,from_name:'La Roja Pool',name:m.name,message:msg})});
     const data=await res.json().catch(()=>({}));
-    if(res.ok&&data.success){btn.textContent='Sent \u2713';capStatus('Captain change sent. It applies from Stage '+capSel.stage+', provided that stage has not started.','ok');}
-    else{btn.disabled=false;btn.textContent='Send captain change';capStatus('Could not send automatically'+(data.message?' ('+data.message+')':'')+'. Tap Copy and send it to Jono directly.','err');}
-  }catch(e){btn.disabled=false;btn.textContent='Send captain change';capStatus('Network problem \u2014 could not send. Tap Copy and send it to Jono directly.','err');}
+    if(res.ok&&data.success){btn.disabled=false;btn.textContent='Send captain plan';capStatus('Captain plan sent. It applies from Stage '+(capLockBefore()+1)+' \u2014 send it again any time you change your mind.','ok');}
+    else{btn.disabled=false;btn.textContent='Send captain plan';capStatus('Could not send automatically'+(data.message?' ('+data.message+')':'')+'. Tap Copy and send it to Jono directly.','err');}
+  }catch(e){btn.disabled=false;btn.textContent='Send captain plan';capStatus('Network problem \u2014 could not send. Tap Copy and send it to Jono directly.','err');}
 }
 function capCopy(){
   const txt=capMessage();if(!txt)return;
-  const done=()=>edToast('Captain change copied \u2014 send it to Jono');
+  const done=()=>edToast('Captain plan copied \u2014 send it to Jono');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy and send this:',txt);});
   else window.prompt('Copy and send this:',txt);
 }
 document.addEventListener('change',e=>{
-  if(e.target.id==='capManager'){capSel.mgr=e.target.value;capSel.rider='';renderCaptainPage();}
-  else if(e.target.id==='capStage'){capSel.stage=parseInt(e.target.value,10)||0;renderCaptainPage();}
-  else if(e.target.id==='pickCaptain'){renderTray();}
+  const t=e.target;
+  if(t.id==='capManager'){capSel.mgr=t.value;capSel.plan={};const a=document.getElementById('capPlanAll');if(a)a.innerHTML='';renderCaptainPage();return;}
+  if(t.id==='pickCaptain'){renderTray();return;}
+  if(t.id==='capPlanAll'){if(t.value){const lock=capLockBefore();for(let i=lock+1;i<=21;i++)capSel.plan[i]=t.value;}renderCaptainPage();return;}
+  if(t.id==='pickPlanAll'){if(t.value){for(let i=1;i<=21;i++)pickPlan[i]=t.value;}renderPickPlan();return;}
+  if(t.classList&&t.classList.contains('cplan-sel')){
+    const n=parseInt(t.getAttribute('data-plan'),10);
+    if(t.closest('#capPlanRows')){capSel.plan[n]=t.value;const el=document.getElementById('capPlanTally');if(el)el.textContent=planCounts(capSel.plan,capLockBefore());}
+    else{pickPlan[n]=t.value;const el=document.getElementById('pickPlanTally');if(el)el.textContent=planCounts(pickPlan,0);}
+    return;}
 });
 document.addEventListener('click',e=>{
-  const cp=e.target.closest&&e.target.closest('[data-cap]');
-  if(cp){capSel.rider=cp.getAttribute('data-cap');renderCaptainPage();return;}
   if(e.target.id==='capSubmit'){capSubmit();return;}
   if(e.target.id==='capCopy'){capCopy();return;}
 });
@@ -1596,5 +1693,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 1787234080 -->
+<!-- deploy: 1787244639 -->
 </html>
