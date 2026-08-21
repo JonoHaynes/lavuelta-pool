@@ -651,7 +651,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">The start list</div>
     <h2 class="sec-title">Riders &amp; values</h2>
-    <div class="prov-note"><b>Official start list.</b> All 181 riders confirmed by the organisers, across 23 teams. Netcompany INEOS have named only five of their eight riders so far; the remaining three will be added as soon as they are announced.</div>
+    <div class="prov-note"><b>Final start list.</b> All 184 riders across 23 teams, confirmed by the organisers. Any late withdrawal before Stage 1 will be reflected here.</div>
     <div class="controls">
       <label class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -720,7 +720,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       </div>
       <div id="pickStatus" class="pick-status" hidden></div>
       <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
-      <div class="tray-prov">Official start list — 181 riders. Netcompany INEOS still to name three riders.</div>
+      <div class="tray-prov">Final start list — 184 riders, all 23 teams confirmed.</div>
       <div class="tray-deadline"><b>Deadline:</b> submit your team and pay the 20 CHF entry fee before Stage 1 starts (Sat 22 August, 12:00 CEST).</div>
       <div class="tray-privacy">Submitted teams stay hidden until Stage 1 begins — no one can pick based on another manager's choices.</div>
     </div>
@@ -895,9 +895,12 @@ const R = [
 ['norsgaard','Mathias Norsgaard','Lidl–Trek','🇩🇰',4,44,44,52,78,58,'Rouleur / domestique','tt'],
 ['mosca','Jacopo Mosca','Lidl–Trek','🇮🇹',3,44,42,52,66,58,'Domestique','break'],
 ['onley','Oscar Onley','Netcompany INEOS','🇬🇧',15,89,38,70,76,52,'GC leader / young','gc'],
+['svestadbardseng','Embret Svestad-Bårdseng','Netcompany INEOS','🇳🇴',4,76,30,56,60,66,'Climber / young','gc'],
+['lucashamilton','Lucas Hamilton','Netcompany INEOS','🇦🇺',5,78,28,56,64,66,'Climbing domestique','gc'],
+['haig','Jack Haig','Netcompany INEOS','🇦🇺',8,84,28,58,68,62,'GC / climber','gc'],
+['tarling','Joshua Tarling','Netcompany INEOS','🇬🇧',10,40,46,56,95,58,'Time trial specialist','tt'],
 ['carlosrodriguez','Carlos Rodríguez','Netcompany INEOS','🇪🇸',13,88,36,66,82,50,'GC co-leader / young','gc'],
 ['laurance','Axel Laurance','Netcompany INEOS','🇫🇷',8,58,66,80,64,70,'Puncheur / classics / young','punch'],
-['deplus','Laurens De Plus','Netcompany INEOS','🇧🇪',6,80,30,58,72,58,'Climbing domestique','gc'],
 ['turner','Ben Turner','Netcompany INEOS','🇬🇧',5,38,58,68,70,66,'Classics / rouleur','break'],
 ['mas','Enric Mas','Movistar Team','🇪🇸',13,88,32,64,72,50,'GC leader','gc'],
 ['uijtdebroeks','Cian Uijtdebroeks','Movistar Team','🇧🇪',12,86,28,60,70,50,'GC co-leader / young','gc'],
@@ -924,12 +927,12 @@ const R = [
 ['depestel','Sander De Pestel','Decathlon CMA CGM','🇧🇪',3,62,36,54,62,60,'Domestique','break'],
 ['scotson','Callum Scotson','Decathlon CMA CGM','🇦🇺',3,44,42,52,70,56,'Rouleur / domestique','tt'],
 ['landa','Mikel Landa','Soudal Quick-Step','🇪🇸',9,86,26,58,64,58,'GC / climber','gc'],
+['vansevenant','Mauri Vansevenant','Soudal Quick-Step','🇧🇪',6,78,30,68,62,72,'Climber / puncheur','break'],
 ['hayter','Ethan Hayter','Soudal Quick-Step','🇬🇧',9,52,74,76,84,60,'Time trial / sprint','tt'],
 ['dainese','Alberto Dainese','Soudal Quick-Step','🇮🇹',8,28,80,56,52,44,'Sprinter','sprint'],
 ['vparetpeintre','Valentin Paret-Peintre','Soudal Quick-Step','🇫🇷',8,84,26,60,58,76,'Climber / young','gc'],
 ['zana','Filippo Zana','Soudal Quick-Step','🇮🇹',5,74,40,70,62,74,'Puncheur / breakaway','break'],
 ['vandenbossche','Fabio Van den Bossche','Soudal Quick-Step','🇧🇪',5,30,70,60,60,52,'Sprinter / lead-out','sprint'],
-['cras','Steff Cras','Soudal Quick-Step','🇧🇪',4,78,26,52,60,68,'Climbing domestique','gc'],
 ['garofoli','Gianmarco Garofoli','Soudal Quick-Step','🇮🇹',4,70,42,64,62,66,'Puncheur / young','punch'],
 ['buitrago','Santiago Buitrago','Bahrain–Victorious','🇨🇴',11,86,32,66,70,64,'GC leader','gc'],
 ['bilbao','Pello Bilbao','Bahrain–Victorious','🇪🇸',8,80,40,72,70,76,'GC / stage hunter','break'],
@@ -988,7 +991,7 @@ const R = [
 ['vantricht','Floris Van Tricht','NSN Cycling Team','🇧🇪',3,64,40,58,62,64,'Domestique / young','break'],
 ['kretschy','Moritz Kretschy','NSN Cycling Team','🇩🇪',3,60,44,56,62,60,'Domestique / young','break'],
 ['leemreize','Gijs Leemreize','Team Picnic PostNL','🇳🇱',6,80,30,60,64,78,'Climber / breakaway','break'],
-['hamilton','Chris Hamilton','Team Picnic PostNL','🇦🇺',5,78,28,56,64,64,'Climbing domestique','gc'],
+['chrishamilton','Chris Hamilton','Team Picnic PostNL','🇦🇺',5,78,28,56,64,64,'Climbing domestique','gc'],
 ['jgmartinez','Juan Guillermo Martínez','Team Picnic PostNL','🇨🇴',5,78,30,56,56,68,'Climber / young','gc'],
 ['dejong','Timo de Jong','Team Picnic PostNL','🇳🇱',4,30,70,60,58,54,'Sprinter / lead-out','sprint'],
 ['roosen','Timo Roosen','Team Picnic PostNL','🇳🇱',3,42,44,54,70,58,'Rouleur / domestique','tt'],
@@ -1047,10 +1050,10 @@ const R = [
 const RIDERS={}; R.forEach(a=>RIDERS[a[0]]={id:a[0],name:a[1],team:a[2],flag:a[3],val:a[4],climb:a[5],sprint:a[6],punch:a[7],itt:a[8],brk:a[9],role:a[10],cat:a[11]});
 /* White jersey: highest-placed rider on GC born on or after 1 Jan 2001.
    Taken from the official start list youth markers. */
-const YOUNG=new Set(['torres', 'fisherblack', 'wandahl', 'tuckwell', 'thornley', 'brennan', 'tulett', 'nordhagen', 'nys', 'onley', 'carlosrodriguez', 'laurance', 'uijtdebroeks', 'castrillo', 'romeo', 'garciapierna', 'canal', 'steinhauser', 'rafferty', 'beloki', 'mackellar', 'jfrodriguez', 'riccitello', 'bisiaux', 'chamberlain', 'labrosse', 'vparetpeintre', 'garofoli', 'omrzel', 'ermakov', 'tjotta', 'dalby', 'romele', 'vanbekkum', 'pickering', 'mckenzie', 'tronchon', 'paleni', 'widar', 'thompson', 'craps', 'deschuyteneer', 'vansintmaartensdijk', 'marti', 'vantricht', 'kretschy', 'jgmartinez', 'renardhaquin', 'peace', 'glivar', 'busatto', 'debruyne', 'sentjens', 'brenner', 'wilksch', 'fweiss', 'rouland', 'gloag', 'camprubi', 'calzoni', 'uriarte', 'wenzel', 'macias']);
+const YOUNG=new Set(['torres', 'fisherblack', 'wandahl', 'tuckwell', 'thornley', 'brennan', 'tulett', 'nordhagen', 'nys', 'onley', 'carlosrodriguez', 'laurance', 'uijtdebroeks', 'castrillo', 'romeo', 'garciapierna', 'canal', 'steinhauser', 'rafferty', 'beloki', 'mackellar', 'jfrodriguez', 'riccitello', 'bisiaux', 'chamberlain', 'labrosse', 'vparetpeintre', 'garofoli', 'omrzel', 'ermakov', 'tjotta', 'dalby', 'romele', 'vanbekkum', 'pickering', 'mckenzie', 'tronchon', 'paleni', 'widar', 'thompson', 'craps', 'deschuyteneer', 'vansintmaartensdijk', 'marti', 'vantricht', 'kretschy', 'jgmartinez', 'renardhaquin', 'peace', 'glivar', 'busatto', 'debruyne', 'sentjens', 'brenner', 'wilksch', 'fweiss', 'rouland', 'gloag', 'camprubi', 'calzoni', 'uriarte', 'wenzel', 'macias', 'svestadbardseng', 'tarling']);
 
 const STAGES=[
-[1,'itt','Sat 22 Aug','Monaco','Monaco',9.4,130,12,70,`La Vuelta opens against the clock in the Principality, the first time Monaco has hosted the start of all three Grand Tours. The course rolls out by the Monte Carlo casino and lumps upward early before flattening into a technical run through the streets. Short enough that the gaps stay small, twisty enough that a poor line costs seconds.`,['pogacar','roglic','almeida'],[[0,20],[0.14,95,'Casino rise'],[0.3,55],[0.5,30],[0.72,45],[1,15]]],
+[1,'itt','Sat 22 Aug','Monaco','Monaco',9.4,130,12,70,`La Vuelta opens against the clock in the Principality, the first time Monaco has hosted the start of all three Grand Tours. The course rolls out by the Monte Carlo casino and lumps upward early before flattening into a technical run through the streets. Short enough that the gaps stay small, twisty enough that a poor line costs seconds.`,['pogacar','roglic','tarling'],[[0,20],[0.14,95,'Casino rise'],[0.3,55],[0.5,30],[0.72,45],[1,15]]],
 [2,'hilly','Sun 23 Aug','Monaco','Manosque',215.2,3100,88,900,`The longest day of the race heads inland from the Mediterranean into Haute-Provence. Two category-three climbs come early, which blunts their bite, but more than 3,000 metres of rolling terrain will grind at tired legs. The finish drags uphill into Manosque — a sprint, but one for the strong.`,['vanaert','pedersen','nys'],[[0,15],[0.12,420],[0.26,610,'Côte de Gourdon'],[0.4,330],[0.55,520,'Col de la Croix'],[0.7,300],[0.86,480],[1,390]]],
 [3,'mountain','Mon 24 Aug','Gruissan','Font Romeu',166.7,2600,175,1800,`A day of two halves: a flat 100 km run off the Aude coast, then the Pyrenees arrive all at once. The category-one Col de Mont-Louis tops out with 15 km to go before a short descent drops onto the gentler climb to Font Romeu at 1,800 m. First real look at the GC pecking order — and the red jersey can change hands.`,['pogacar','roglic','almeida','carlosrodriguez'],[[0,10],[0.2,60],[0.42,140],[0.6,420],[0.78,1580,'Col de Mont-Louis'],[0.88,1450],[1,1800,'Font Romeu']]],
 [4,'mountain','Tue 25 Aug','Andorra la Vella','Andorra la Vella',104.9,3900,235,2408,`Barely 105 km and utterly savage — Andorra la Vella hosts start and finish for the first time. The riders climb the category-one Port d'Envalira, the roof of the race at 2,408 m, straight from the gun, then take the steep Collada de Beixalis and Coll d'Ordino back to back. A last kick up the Alto de la Comella leaves 4 km of descent to the line, so this one can be won by a descender.`,['pogacar','roglic','mas'],[[0,1020],[0.24,2408,"Port d'Envalira"],[0.4,1180],[0.54,1780,'Collada de Beixalis'],[0.62,1300],[0.76,1980,"Coll d'Ordino"],[0.88,1100],[0.95,1360,'Alto de la Comella'],[1,1020]]],
@@ -1067,7 +1070,7 @@ const STAGES=[
 [15,'hilly','Sun 6 Sep','Palma del Río','Córdoba',181.2,2500,88,700,`The last day before the final rest day, and a classic breakaway battleground. Three category-three climbs and a great deal of uncategorised lumpiness in between; the Puerto Artafi crests just under 30 km out. If a strong rider is clear there they can hold it, otherwise the run into Córdoba is flat. Wout van Aert won here last time.`,['cort','herrada','castrillo'],[[0,60],[0.18,340],[0.34,560,'Alto del Aguijón'],[0.48,300],[0.62,620,'Puerto Calatraveño'],[0.76,380],[0.85,660,'Puerto Artafi'],[1,120]]],
 [16,'flat','Tue 8 Sep','Cortegana','La Rábida',186.0,1900,40,700,`Down from the Sierra de Aracena to the Atlantic at Palos de la Frontera, where Columbus sailed from. The first half rolls without a single categorised climb and the run-in is the flattest part of the day. The one variable is the sea wind — strong enough and echelons could rearrange the race.`,['pedersen','coquard','brennan'],[[0,690],[0.2,540],[0.38,380],[0.54,240],[0.72,140],[0.88,60],[1,10]]],
 [17,'flat','Wed 9 Sep','Dos Hermanas','Sevilla',189.2,1100,28,200,`The flattest stage of the race and, given how stage 21 has been designed, the sprinters' last clear opportunity. Three weeks of fatigue can make these days unruly, but the maths favours the fast men on the streets of Seville — the sixteenth Vuelta stage to finish in the city.`,['pedersen','coquard','dainese'],[[0,40],[0.22,120],[0.42,80],[0.6,150],[0.78,90],[1,20]]],
-[18,'itt','Thu 10 Sep','El Puerto de Santa María','Jerez de la Frontera',32.5,250,30,90,`The decisive race against the clock: 32.5 km across the sherry country of Cádiz, flat and exposed. Coming in the final week with the general classification nearly settled, it is the last place a contender can take back real time — and the coastal wind rewards raw power over light climbers.`,['roglic','almeida','kung','pogacar'],[[0,10],[0.22,60],[0.44,35],[0.66,80],[0.85,45],[1,55]]],
+[18,'itt','Thu 10 Sep','El Puerto de Santa María','Jerez de la Frontera',32.5,250,30,90,`The decisive race against the clock: 32.5 km across the sherry country of Cádiz, flat and exposed. Coming in the final week with the general classification nearly settled, it is the last place a contender can take back real time — and the coastal wind rewards raw power over light climbers.`,['pogacar','roglic','tarling','kung'],[[0,10],[0.22,60],[0.44,35],[0.66,80],[0.85,45],[1,55]]],
 [19,'mountain','Fri 11 Sep','Vélez-Málaga','Peñas Blancas',205.1,4300,210,1300,`Deceptively hard: the second-longest stage of the race, with 70 flat kilometres before three categorised climbs stack up on tired legs. It finishes on the category-one drag to Peñas Blancas above Estepona, where Carapaz soloed clear in 2022. Not a stage where the red jersey is won — very much one where it can be lost.`,['pogacar','roglic','vine','carapaz'],[[0,20],[0.18,60],[0.34,540,'Puerto de Ojén'],[0.48,300],[0.62,760,'Alto de Mijas'],[0.74,420],[0.86,620],[1,1275,'Peñas Blancas']]],
 [20,'mountain','Sat 12 Sep','La Calahorra','Collado del Alguacil',206.7,5200,325,1950,`The queen stage and almost certainly the decider. Over 5,000 metres of climbing across five ascents in the Sierra Nevada, ramping up all day: the Alto de Hazallanas twice with the Puerto de El Purche in between, then the Collado del Alguacil — the only climb in the entire race rated Categoría Especial, 8.3 km averaging 9.8% with long stretches in double digits. Whoever is strongest here wins the Vuelta.`,['pogacar','roglic','almeida','onley'],[[0,1180],[0.14,1420,'Alto del Marquesado'],[0.28,980],[0.44,1860,'Alto de Hazallanas'],[0.56,1120],[0.68,1503,'Puerto de El Purche'],[0.78,1040],[0.88,1860,'Alto de Hazallanas'],[0.94,1080],[1,1650,'Collado del Alguacil']]],
 [21,'hilly','Sun 13 Sep','Granada','Granada',99.4,1800,72,800,`No processional finale. Granada closes the race with a short circuit that climbs to the Alhambra five times, the last ascent finishing on the line. It is built to put the sprinters in difficulty and to leave the door open — either a solo attacker dances clear on the final ramp or an explosive uphill sprint settles the 81st Vuelta.`,['pogacar','nys','vanaert'],[[0,680],[0.18,790,'Alhambra'],[0.3,660],[0.44,790,'Alhambra'],[0.56,660],[0.68,790,'Alhambra'],[0.8,660],[0.88,790,'Alhambra'],[0.94,670],[1,790,'Alhambra']]],
@@ -1693,5 +1696,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 1787244639 -->
+<!-- deploy: 1787296065 -->
 </html>
