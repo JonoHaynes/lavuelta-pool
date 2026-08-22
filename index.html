@@ -828,6 +828,10 @@ const MANAGERS = [
   { id:'rassie', name:'Bulls', riders:['pogacar','carapaz','onley','pedersen','gall','sivakov','armirail','moscon'], captain:'pogacar' },
 ];
 const RESULTS = {
+  1: {
+    top: ['pogacar','hayter','tarling','thornley','laporte','bisiaux','chamberlain','vanaert','fisherblack','kluckers','romele','kung','vine','ioliveira','pedersen'],
+    red: 'pogacar', green: 'pogacar', polka: 'tarling', white: 'tarling'
+  },
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
 /* OPTIONAL — add a photo URL per rider id to show a real photo on the contender cards, e.g. pogacar:'https://...' */
@@ -1701,5 +1705,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 1787391642 -->
+<!-- deploy: 2026-08-22T17:36:47.670570Z -->
 </html>
