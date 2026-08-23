@@ -81,6 +81,11 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 .cap-hint{font-weight:600;color:var(--red);text-transform:none;letter-spacing:0}
 .rcard.is-cap{background:linear-gradient(90deg,rgba(216,35,42,.07),transparent 60%)}
 .capbadge{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 4px;border-radius:5px;background:var(--red);color:#fff;font-size:10px;font-weight:800;margin-left:6px;vertical-align:middle}
+.dnfbadge{display:inline-flex;align-items:center;justify-content:center;height:16px;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.10);color:var(--dim);border:1px solid rgba(255,255,255,.16);font-size:9.5px;font-weight:800;letter-spacing:.04em;margin-left:6px;vertical-align:middle}
+.rcard.is-dnf{opacity:.5}
+.rcard.is-dnf .rn{text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--dim)}
+.rcard.is-dnf .rn .dnfbadge{text-decoration:none}
+.squadmini s{opacity:.55}
 .page{display:none;animation:fade .5s ease}
 .page.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -827,6 +832,10 @@ const MANAGERS = [
   { id:'juan', name:'Juan', riders:['pogacar','vanaert','carlosrodriguez','johannessen','carapaz','gmartin','uijtdebroeks','peace'], captain:'pogacar', captains:{1:'vanaert',2:'vanaert',3:'pogacar',4:'pogacar',5:'pogacar',6:'pogacar',7:'pogacar',8:'pogacar',9:'pogacar',10:'pogacar',11:'pogacar',12:'pogacar',13:'pogacar',14:'pogacar',15:'pogacar',16:'pogacar',17:'pogacar',18:'pogacar',19:'pogacar',20:'pogacar',21:'pogacar'} },
   { id:'rassie', name:'Bulls', riders:['pogacar','carapaz','onley','pedersen','gall','sivakov','armirail','moscon'], captain:'pogacar' },
 ];
+// Riders who have abandoned the race. id -> stage number of the abandon.
+// They keep any points already scored and score nothing from that stage on.
+const DNF = { chumil: 2 };
+
 const RESULTS = {
   1: {
     top: ['pogacar','hayter','tarling','thornley','laporte','bisiaux','chamberlain','vanaert','fisherblack','kluckers','romele','kung','vine','ioliveira','pedersen'],
@@ -842,7 +851,7 @@ const FINAL = { gc:[], green:[], polka:[], white:[] };
 const PHOTOS = {};
 /*DATA_END*/
 const __clone=o=>JSON.parse(JSON.stringify(o));
-let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINAL),PHOTOS:__clone(PHOTOS)};
+let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINAL),PHOTOS:__clone(PHOTOS),DNF:__clone(DNF)};
 /* ════════════════════════════════════════════════════════════════════ */
 
 const TEAM_COLORS = {
@@ -1216,10 +1225,11 @@ function renderStandings(){
     const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
     const body=rows.map(r=>{
       const capNow=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
-      const mini=r.m.riders.map(id=>RIDERS[id]?(RIDERS[id].name.split(' ').slice(-1)[0]+(id===capNow?' (C)':'')):id).join(' · ');
+      const mini=r.m.riders.map(id=>RIDERS[id]?((DATA.DNF&&DATA.DNF[id]?`<s>${RIDERS[id].name.split(' ').slice(-1)[0]}</s>`:RIDERS[id].name.split(' ').slice(-1)[0])+(id===capNow?' (C)':'')):id).join(' · ');
       const curCap=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
       const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
-        return `<div class="rcard${id===curCap?' is-cap':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
+        const out=DATA.DNF&&DATA.DNF[id];
+        return `<div class="rcard${id===curCap?' is-cap':''}${out?' is-dnf':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}${out?`<span class="dnfbadge" title="Abandoned on stage ${out}">DNF</span>`:''}</div><div class="rt">${out?`Abandoned · stage ${out}`:rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
       const overCap=r.val>100?' style="color:var(--polka)"':'';
       return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
       <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
@@ -1709,5 +1719,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-23T15:48:33.478173+00:00 -->
+<!-- deploy: 2026-08-23T16:12:40.133980+00:00 -->
 </html>
