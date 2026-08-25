@@ -81,6 +81,7 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 .cap-hint{font-weight:600;color:var(--red);text-transform:none;letter-spacing:0}
 .rcard.is-cap{background:linear-gradient(90deg,rgba(216,35,42,.07),transparent 60%)}
 .capbadge{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 4px;border-radius:5px;background:var(--red);color:#fff;font-size:10px;font-weight:800;margin-left:6px;vertical-align:middle}
+.tbadge.t-cancelled{background:rgba(255,255,255,.07);color:var(--dim);border:1px solid rgba(255,255,255,.16)}
 .dnfbadge{display:inline-flex;align-items:center;justify-content:center;height:16px;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.10);color:var(--dim);border:1px solid rgba(255,255,255,.16);font-size:9.5px;font-weight:800;letter-spacing:.04em;margin-left:6px;vertical-align:middle}
 .rcard.is-dnf{opacity:.5}
 .rcard.is-dnf .rn{text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--dim)}
@@ -832,6 +833,10 @@ const MANAGERS = [
   { id:'juan', name:'Juan', riders:['pogacar','vanaert','carlosrodriguez','johannessen','carapaz','gmartin','uijtdebroeks','peace'], captain:'pogacar', captains:{1:'vanaert',2:'vanaert',3:'pogacar',4:'pogacar',5:'pogacar',6:'pogacar',7:'pogacar',8:'pogacar',9:'pogacar',10:'pogacar',11:'pogacar',12:'pogacar',13:'pogacar',14:'pogacar',15:'pogacar',16:'pogacar',17:'pogacar',18:'pogacar',19:'pogacar',20:'pogacar',21:'pogacar'} },
   { id:'rassie', name:'Bulls', riders:['pogacar','carapaz','onley','pedersen','gall','sivakov','armirail','moscon'], captain:'pogacar' },
 ];
+// Stages cancelled by the organisers. number -> short reason shown on the site.
+// A cancelled stage scores nothing for anyone and is skipped by the engine.
+const CANCELLED = { 3: 'Cancelled by the organisers' };
+
 // Riders who have abandoned the race. id -> stage number of the abandon.
 // They keep any points already scored and score nothing from that stage on.
 const DNF = { chumil: 2 };
@@ -845,13 +850,18 @@ const RESULTS = {
     top: ['brennan','miquel','pogacar','pedersen','hofstetter','johannessen','fisherblack','laurance','onley','aular','tulett','bisiaux','braet','dgonzalez','coquard'],
     red: 'pogacar', green: 'pogacar', polka: 'bouwman', white: 'brennan'
   },
+  // Stage 3 (Gruissan > Font Romeu) was cancelled — see CANCELLED above.
+  4: {
+    top: ['pogacar','widar','gall','onley','kuss','mas','roglic','carapaz','skjelmose','muhlberger','vine','debruyne','tejada','torres','brenner'],
+    red: 'pogacar', green: 'pogacar', polka: 'bouwman', white: 'onley'
+  },
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
 /* OPTIONAL — add a photo URL per rider id to show a real photo on the contender cards, e.g. pogacar:'https://...' */
 const PHOTOS = {};
 /*DATA_END*/
 const __clone=o=>JSON.parse(JSON.stringify(o));
-let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINAL),PHOTOS:__clone(PHOTOS),DNF:__clone(DNF)};
+let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINAL),PHOTOS:__clone(PHOTOS),DNF:__clone(DNF),CANCELLED:__clone(CANCELLED)};
 /* ════════════════════════════════════════════════════════════════════ */
 
 const TEAM_COLORS = {
@@ -1368,7 +1378,7 @@ async function pickSubmit(){
 
 let selectedStage=completedStages.length?Math.min(completedStages.length+1,21):1;
 function renderStageList(){document.getElementById('stageList').innerHTML=STAGES.map(s=>{const o=stageObj(s);
-  return `<div class="stage-item${o.n===selectedStage?' on':''}" data-stage="${o.n}"><div class="snum">${o.n}</div><div class="sinfo"><div class="sd">${o.date}</div><div class="sr">${o.from} → ${o.to}</div></div><div class="tbadge t-${o.type}">${o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</div></div>`;}).join('');
+  return `<div class="stage-item${o.n===selectedStage?' on':''}" data-stage="${o.n}"><div class="snum">${o.n}</div><div class="sinfo"><div class="sd">${o.date}</div><div class="sr">${o.from} → ${o.to}</div></div><div class="tbadge${DATA.CANCELLED&&DATA.CANCELLED[o.n]?' t-cancelled':' t-'+o.type}">${DATA.CANCELLED&&DATA.CANCELLED[o.n]?'CANCELLED':o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</div></div>`;}).join('');
   document.querySelectorAll('.stage-item').forEach(el=>el.addEventListener('click',()=>{selectedStage=+el.dataset.stage;renderStageList();renderStageDetail();}));}
 function renderStageDetail(){const o=stageObj(STAGE_BY_N[selectedStage]);
   const favs=o.favs.map(id=>{const r=RIDERS[id];if(!r)return '';const ow=ownerMap[id];return `<span class="fav"><span class="flag">${r.flag}</span>${r.name}${ow?`<span class="own">${ow.join(' · ')}</span>`:''}</span>`;}).join('');
@@ -1719,5 +1729,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-23T16:12:40.133980+00:00 -->
+<!-- deploy: 2026-08-25T17:26:57.803647+00:00 -->
 </html>
