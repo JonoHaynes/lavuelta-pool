@@ -81,6 +81,24 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 .cap-hint{font-weight:600;color:var(--red);text-transform:none;letter-spacing:0}
 .rcard.is-cap{background:linear-gradient(90deg,rgba(216,35,42,.07),transparent 60%)}
 .capbadge{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 4px;border-radius:5px;background:var(--red);color:#fff;font-size:10px;font-weight:800;margin-left:6px;vertical-align:middle}
+.rcr{font-family:var(--mono,monospace);font-weight:700;color:var(--ink,#f4f6fa);opacity:.85}
+.rdot{opacity:.4;margin:0 5px}
+.rout{color:var(--dim)}
+.ab-wrap{margin-top:26px;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 16px 6px;background:rgba(255,255,255,.02)}
+.ab-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.ab-head h3{margin:0;font-size:16px;letter-spacing:.01em}
+.ab-count{font-family:var(--mono,monospace);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.ab-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.07)}
+.ab-i{flex:1;min-width:0}
+.ab-n{font-weight:650;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.35)}
+.ab-t{font-size:12px;color:var(--dim);margin-top:2px}
+.ab-r{font-size:12px;color:var(--dim);opacity:.8;margin-top:3px;font-style:italic}
+.ab-s{text-align:right;flex-shrink:0}
+.ab-sn{font-family:var(--mono,monospace);font-weight:800;font-size:13px}
+.ab-o{font-size:11px;color:var(--dim);margin-top:2px}
+.ab-o.ab-none{opacity:.45}
+.ab-empty{padding:6px 0 12px;color:var(--dim)}
+.ab-foot{font-size:12px;color:var(--dim);margin:12px 0 10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
 .tbadge.t-cancelled{background:rgba(255,255,255,.07);color:var(--dim);border:1px solid rgba(255,255,255,.16)}
 .dnfbadge{display:inline-flex;align-items:center;justify-content:center;height:16px;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.10);color:var(--dim);border:1px solid rgba(255,255,255,.16);font-size:9.5px;font-weight:800;letter-spacing:.04em;margin-left:6px;vertical-align:middle}
 .rcard.is-dnf{opacity:.5}
@@ -835,11 +853,15 @@ const MANAGERS = [
 ];
 // Stages cancelled by the organisers. number -> short reason shown on the site.
 // A cancelled stage scores nothing for anyone and is skipped by the engine.
-const CANCELLED = { 3: 'Cancelled by the organisers' };
+const CANCELLED = { 3: 'Abandoned in the final kilometres — hailstorm' };
 
 // Riders who have abandoned the race. id -> stage number of the abandon.
 // They keep any points already scored and score nothing from that stage on.
-const DNF = { chumil: 2 };
+const DNF = {
+  chumil:       { stage: 2, reason: 'Crash — head injury and elbow wound' },
+  kirsch:       { stage: 3, reason: 'Illness' },
+  uijtdebroeks: { stage: 5, reason: 'Did not start — fractured ankle from the stage 2 crash' },
+};
 
 const RESULTS = {
   1: {
@@ -1238,8 +1260,8 @@ function renderStandings(){
       const mini=r.m.riders.map(id=>RIDERS[id]?((DATA.DNF&&DATA.DNF[id]?`<s>${RIDERS[id].name.split(' ').slice(-1)[0]}</s>`:RIDERS[id].name.split(' ').slice(-1)[0])+(id===capNow?' (C)':'')):id).join(' · ');
       const curCap=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
       const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
-        const out=DATA.DNF&&DATA.DNF[id];
-        return `<div class="rcard${id===curCap?' is-cap':''}${out?' is-dnf':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}${out?`<span class="dnfbadge" title="Abandoned on stage ${out}">DNF</span>`:''}</div><div class="rt">${out?`Abandoned · stage ${out}`:rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
+        const out=DATA.DNF&&DATA.DNF[id];const outS=out?(out.stage||out):null;
+        return `<div class="rcard${id===curCap?' is-cap':''}${out?' is-dnf':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}${out?`<span class="dnfbadge" title="Out of the race — stage ${outS}">DNF</span>`:''}</div><div class="rt"><span class="rcr">${rd.val} cr</span><span class="rdot">\u00b7</span>${rd.role}${out?`<span class="rdot">\u00b7</span><span class="rout">out, stage ${outS}</span>`:''}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
       const overCap=r.val>100?' style="color:var(--polka)"':'';
       return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
       <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
@@ -1687,10 +1709,19 @@ function chartStackedH(opts){
     out+=`<text x="${W-mR}" y="${y+rowH/2}" fill="#946C00" font-size="13" font-family="'JetBrains Mono',monospace" font-weight="700" text-anchor="end" dominant-baseline="middle">${r.total}</text>`;});
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${out}</svg>`;
 }
+function abandonPanel(){
+  const d=DATA.DNF||{};
+  const ids=Object.keys(d).filter(id=>RIDERS[id]).sort((a,b)=>((d[a].stage||d[a])-(d[b].stage||d[b]))||RIDERS[a].name.localeCompare(RIDERS[b].name));
+  const owners=id=>DATA.MANAGERS.filter(m=>m.riders.indexOf(id)>=0).map(m=>m.name);
+  const rows=ids.map(id=>{const r=RIDERS[id],e=d[id],st=e.stage||e,own=owners(id);
+    return `<div class="ab-row"><span class="flag">${r.flag}</span><div class="ab-i"><div class="ab-n">${r.name}</div><div class="ab-t"><span class="rcr">${r.val} cr</span><span class="rdot">\u00b7</span>${r.role}<span class="rdot">\u00b7</span>${r.team}</div>${e.reason?`<div class="ab-r">${e.reason}</div>`:''}</div><div class="ab-s"><div class="ab-sn">S${st}</div>${own.length?`<div class="ab-o">${own.join(', ')}</div>`:'<div class="ab-o ab-none">unpicked</div>'}</div></div>`;}).join('');
+  return `<section class="ab-wrap"><div class="ab-head"><h3>Out of the race</h3><span class="ab-count">${ids.length} rider${ids.length===1?'':'s'}</span></div>${ids.length?rows:'<div class="ab-empty">Everybody is still in the race.</div>'}<p class="ab-foot">A rider keeps whatever he scored before leaving and scores nothing afterwards. There are no replacements.</p></section>`;
+}
+
 function renderStats(){
   const MANAGERS=DATA.MANAGERS;
   const body=document.getElementById('statsBody');
-  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">Statistics unlock at the Grand Départ</div>These charts come to life once Stage 1 is in the books on 22 August — check back after the Monaco time trial.</div>`;return;}
+  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">Statistics unlock at the Grand Départ</div>These charts come to life once Stage 1 is in the books on 22 August — check back after the Monaco time trial.</div>`+abandonPanel();return;}
   const rows=managerStandings(),byId={};rows.forEach(r=>byId[r.m.id]=r);
   const colorById={};MANAGERS.forEach((m,i)=>colorById[m.id]=mgrColor(i));
   const sx=completedStages.map(String);
@@ -1719,7 +1750,8 @@ function renderStats(){
     +`<div class="chart-card"><h3>Position by stage</h3><div class="ch-sub">Where each manager sat in the standings after every stage (P1 = leading).</div>${leg(rankSeries)}${chartLine({series:rankSeries,xLabels:sx,invertY:true,height:Math.max(180,80+MANAGERS.length*40),aria:'position by stage'})}</div>`
     +`<div class="chart-card"><h3>Points scored per stage</h3><div class="ch-sub">Daily hauls — who is in form and which stages moved the needle.</div>${leg(dailyGroups)}${chartBars({stages:sx,groups:dailyGroups})}</div>`
     +`<div class="chart-card"><h3>Where the points come from</h3><div class="ch-sub">Each squad's total split by source — proof of whether the strategy is paying off.</div>${legKeys}${chartStackedH({rows:srcRows,max:srcMax})}</div>`
-    +`<div class="chart-card"><h3>Top scoring riders in the pool</h3><div class="ch-sub">The owned riders doing the heavy lifting — bar colour is their trade team, tag shows who picked them.</div>${toplist}</div>`;
+    +`<div class="chart-card"><h3>Top scoring riders in the pool</h3><div class="ch-sub">The owned riders doing the heavy lifting — bar colour is their trade team, tag shows who picked them.</div>${toplist}</div>`
+    +abandonPanel();
 }
 
 recompute();
@@ -1729,5 +1761,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-26T11:55:56.766553+00:00 -->
+<!-- deploy: 2026-08-26T12:00:54.184150+00:00 -->
 </html>
