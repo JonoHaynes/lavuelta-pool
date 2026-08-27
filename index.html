@@ -861,6 +861,8 @@ const DNF = {
   chumil:       { stage: 2, reason: 'Crash — head injury and elbow wound' },
   kirsch:       { stage: 3, reason: 'Illness' },
   uijtdebroeks: { stage: 5, reason: 'Did not start — fractured ankle from the stage 2 crash' },
+  tarling:      { stage: 6, reason: 'Did not finish' },
+  beloki:       { stage: 6, reason: 'Did not finish' },
 };
 
 const RESULTS = {
@@ -880,6 +882,10 @@ const RESULTS = {
   5: {
     top: ['brennan','meeus','albanese','romele','laurance','aular','laporte','dainese','braet','dgonzalez','vanaert','miquel','tronchon','hofstetter','tiller'],
     red: 'pogacar', green: 'pogacar', polka: 'pogacar', white: 'onley', combativity: 'hayter'
+  },
+  6: {
+    top: ['pogacar','mas','debruyne','carapaz','tejada','gall','roglic','cristianrodriguez','berthet','skjelmose','kuss','onley','kron','camprubi','konrad'],
+    red: 'pogacar', green: 'pogacar', polka: 'pogacar', white: 'onley'
   },
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
@@ -1765,5 +1771,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-26T15:59:01.270974+00:00 -->
+<!-- deploy: 2026-08-27T16:33:56.065284+00:00 -->
 </html>
