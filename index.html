@@ -664,9 +664,9 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         </div>
       <div class="card"><h3><span class="n">8</span>Prize pool</h3>
         <ul><li><b>Entry fee:</b> 20 CHF per manager.</li>
-        <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 22 August, 12:00 CEST).</li>
+        <li><b>Deadline:</b> teams had to be submitted and the entry fee transferred before the start of Stage 1 (Saturday 22 August, 12:00 CEST). Entries are closed.</li>
         <li><b>Winner takes all.</b> The whole pot goes to the manager who finishes top of the fantasy classification. There is nothing for second or third.</li>
-        <li>The pot is the total of every entry fee. With nine managers that is 180 CHF, with twelve it is 240 CHF — confirmed once entries close on 22 August.</li></ul>
+        <li>The pot is the total of every entry fee: <b id="potLine">—</b></li></ul>
         </div>
     </div>
   </section>
@@ -1558,7 +1558,7 @@ function buildEditor(){
   ov().addEventListener('change',edChange);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov().hidden)closeEditor();});
 }
-function renderAll(){renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
+function renderAll(){renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();renderPot();}
 
 const PAGES=['standings','results','pick','captain','rules','stages','stats'];
 function go(id){if(!PAGES.includes(id))id='standings';if(id==='captain')setTimeout(renderCaptainPage,0);PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
@@ -1719,6 +1719,13 @@ function chartStackedH(opts){
     out+=`<text x="${W-mR}" y="${y+rowH/2}" fill="#946C00" font-size="13" font-family="'JetBrains Mono',monospace" font-weight="700" text-anchor="end" dominant-baseline="middle">${r.total}</text>`;});
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${out}</svg>`;
 }
+const ENTRY_FEE=20;
+function renderPot(){
+  const el=document.getElementById('potLine');if(!el)return;
+  const n=DATA.MANAGERS.length;
+  el.textContent=n?`${n} managers \u00d7 ${ENTRY_FEE} CHF = ${n*ENTRY_FEE} CHF, winner takes all.`:'confirmed once entries close.';
+}
+
 function abandonPanel(){
   const d=DATA.DNF||{};
   const ids=Object.keys(d).filter(id=>RIDERS[id]).sort((a,b)=>((d[a].stage||d[a])-(d[b].stage||d[b]))||RIDERS[a].name.localeCompare(RIDERS[b].name));
@@ -1771,5 +1778,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-27T18:00:51.199807+00:00 -->
+<!-- deploy: 2026-08-28T05:41:00.910909+00:00 -->
 </html>
