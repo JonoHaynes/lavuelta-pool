@@ -863,6 +863,11 @@ const DNF = {
   uijtdebroeks: { stage: 5, reason: 'Did not start — fractured ankle from the stage 2 crash' },
   tarling:      { stage: 6, reason: 'Did not finish' },
   beloki:       { stage: 6, reason: 'Did not finish' },
+  pogacar:      { stage: 8, reason: 'Crashed out of the red jersey with 30 km to go' },
+  vantricht:    { stage: 8, reason: 'Crash in the opening kilometres' },
+  uriarte:      { stage: 8, reason: 'Crash in the opening kilometres' },
+  gaffuri:      { stage: 8, reason: 'Did not finish' },
+  vanboven:     { stage: 8, reason: 'Did not start' },
 };
 
 const RESULTS = {
@@ -890,6 +895,10 @@ const RESULTS = {
   7: {
     top: ['leknessund','johannessen','vanaert','omrzel','jfrodriguez','sosa','lutsenko','dunbar','bisiaux','garciapierna','vparetpeintre','zana','warbasse','gmartin','samitier'],
     red: 'pogacar', green: 'vanaert', polka: 'pogacar', white: 'onley', combativity: 'vanaert'
+  },
+  8: {
+    top: ['coquard','pedersen','meeus','turner','labrosse','romele','tronchon','hofstetter','aular','brennan','braet','govekar','covi','mulubrhan','dejong'],
+    red: 'mas', green: 'vanaert', polka: 'leknessund', white: 'onley'
   },
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
@@ -1782,5 +1791,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-28T19:12:43.187277+00:00 -->
+<!-- deploy: 2026-08-29T20:15:24.111716+00:00 -->
 </html>
