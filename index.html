@@ -595,7 +595,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
           <div class="cplan" id="capPlanRows"></div>
           <div class="cap-actions"><button class="ed-btn" id="capSubmit" disabled>Send captain plan</button><button class="ed-btn ed-btn-ghost" id="capCopy" disabled>Copy</button></div>
           <div class="pick-status" id="capStatus" hidden></div>
-          <p class="cap-foot"><b>Deadline: 10:00 CET on the morning of the stage.</b> Send your plan by then and it counts that day; anything later applies from the next stage. Stages already raced are locked and shown greyed out.</p>
+          <p class="cap-foot"><b>Deadline: before the stage starts.</b> Send your plan any time up to the flag drop and it counts that day; anything arriving after the stage is under way applies from the next stage. Stages already raced are locked and shown greyed out.</p>
         </div>
       </div>
     </div>
@@ -620,7 +620,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <ul><li>Every stage has a <b>captain</b> — one rider from your squad whose points that day count <b>double</b>. Stage finish points, jersey bonuses and the combativity award all double.</li>
         <li><b>Each stage has its own captain.</b> Set all twenty-one in advance when you enter — a climber for the summit finishes, a sprinter for the flat days, a time trialist for Monaco and Jerez.</li>
         <li>You do not have to change anything day to day. Your plan stands until you change it.</li>
-        <li>Change any stage, any time, from the <a href="#captain" data-go="captain">Captain</a> page. <b>Deadline: 10:00 CET on the morning of the stage.</b> Anything arriving later applies from the next stage. Stages already raced are locked.</li>
+        <li>Change any stage, any time, from the <a href="#captain" data-go="captain">Captain</a> page. <b>Deadline: before the stage starts.</b> Anything arriving after the stage is under way applies from the next stage. Stages already raced are locked.</li>
         <li>Final classification bonuses in Granada are <b>not</b> doubled — the captain applies to stage scoring only.</li></ul>
         </div>
       <div class="card"><h3><span class="n">4</span>Points per stage</h3>
@@ -752,7 +752,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div class="cplan-wrap" id="pickPlanWrap" hidden>
         <div class="cplan-head">
           <div><h3 class="cplan-title">Your captains, stage by stage</h3>
-          <p class="cplan-sub">Every stage has its own captain and scores double. Set all 21 now — a climber for the mountains, a sprinter for the flat days. Change them later from the Captain page whenever you like, up to 10:00 CET on the morning of each stage.</p></div>
+          <p class="cplan-sub">Every stage has its own captain and scores double. Set all 21 now — a climber for the mountains, a sprinter for the flat days. Change them later from the Captain page whenever you like, right up until each stage starts.</p></div>
         </div>
         <div class="cplan-quick">
           <label for="pickPlanAll">Set every stage to</label>
@@ -1795,5 +1795,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-08-30T16:36:39.933598+00:00 -->
+<!-- deploy: 2026-08-30T16:53:10.671799+00:00 -->
 </html>
