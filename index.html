@@ -1283,9 +1283,9 @@ function renderStandings(){
     gcEl.classList.remove('stage-view');
     const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
     const body=rows.map(r=>{
-      const capNow=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
+      const capNow=captainFor(r.m, upcomingStage());
       const mini=r.m.riders.map(id=>RIDERS[id]?((DATA.DNF&&DATA.DNF[id]?`<s>${RIDERS[id].name.split(' ').slice(-1)[0]}</s>`:RIDERS[id].name.split(' ').slice(-1)[0])+(id===capNow?' (C)':'')):id).join(' · ');
-      const curCap=captainFor(r.m, completedStages.length?completedStages[completedStages.length-1]:1);
+      const curCap=captainFor(r.m, upcomingStage());
       const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
         const out=DATA.DNF&&DATA.DNF[id];const outS=out?(out.stage||out):null;
         return `<div class="rcard${id===curCap?' is-cap':''}${out?' is-dnf':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}${out?`<span class="dnfbadge" title="Out of the race — stage ${outS}">DNF</span>`:''}</div><div class="rt"><span class="rcr">${rd.val} cr</span><span class="rdot">\u00b7</span>${rd.role}${out?`<span class="rdot">\u00b7</span><span class="rout">out, stage ${outS}</span>`:''}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
@@ -1743,6 +1743,18 @@ function renderPot(){
   el.textContent=n?`${n} managers \u00d7 ${ENTRY_FEE} CHF = ${n*ENTRY_FEE} CHF, winner takes all.`:'confirmed once entries close.';
 }
 
+// The stage whose captain is "live": the first stage with no results that hasn't been
+// cancelled. Once every stage is scored, stays on the final stage.
+function upcomingStage(){
+  const last=STAGES.length?STAGES[STAGES.length-1][0]:21;
+  for(let n=1;n<=last;n++){
+    if(DATA.CANCELLED&&DATA.CANCELLED[n])continue;
+    const r=DATA.RESULTS[n];
+    if(!(r&&r.top&&r.top.length))return n;
+  }
+  return last;
+}
+
 function abandonPanel(){
   const d=DATA.DNF||{};
   const ids=Object.keys(d).filter(id=>RIDERS[id]).sort((a,b)=>((d[a].stage||d[a])-(d[b].stage||d[b]))||RIDERS[a].name.localeCompare(RIDERS[b].name));
@@ -1795,5 +1807,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-09-01T05:38:07.793054+00:00 -->
+<!-- deploy: 2026-09-01T11:09:34.466508+00:00 -->
 </html>
