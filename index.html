@@ -1291,7 +1291,7 @@ function renderStandings(){
         return `<div class="rcard${id===curCap?' is-cap':''}${out?' is-dnf':''}" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}${id===curCap?'<span class="capbadge">C</span>':''}${out?`<span class="dnfbadge" title="Out of the race — stage ${outS}">DNF</span>`:''}</div><div class="rt"><span class="rcr">${rd.val} cr</span><span class="rdot">\u00b7</span>${rd.role}${out?`<span class="rdot">\u00b7</span><span class="rout">out, stage ${outS}</span>`:''}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
       const overCap=r.val>100?' style="color:var(--polka)"':'';
       return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
-      <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
+      <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Captain bonus <b>+${r.capPts}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
     }).join('');
     gcEl.innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Entries are open. Submitted squads stay hidden until the race begins — the board goes live with Stage 1, the Monaco time trial on 22 August.</div>';
     document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
@@ -1807,5 +1807,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-09-01T11:29:05.791835+00:00 -->
+<!-- deploy: 2026-09-01T11:31:27.191099+00:00 -->
 </html>
