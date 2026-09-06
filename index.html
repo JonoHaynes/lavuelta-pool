@@ -100,6 +100,9 @@ nav.tabs a.active{color:var(--bg);background:var(--red)}
 .ab-empty{padding:6px 0 12px;color:var(--dim)}
 .ab-foot{font-size:12px;color:var(--dim);margin:12px 0 10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
 .tbadge.t-cancelled{background:rgba(255,255,255,.07);color:var(--dim);border:1px solid rgba(255,255,255,.16)}
+.pickrow.is-out{opacity:.45}
+.pickrow.is-out .rider-name>span>span:not(.dnfbadge){text-decoration:line-through;text-decoration-color:var(--dim)}
+.tleft{margin-left:7px;padding:1px 5px;border-radius:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-family:var(--mono,monospace);font-size:10px;color:var(--dim)}
 .dnfbadge{display:inline-flex;align-items:center;justify-content:center;height:16px;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.10);color:var(--dim);border:1px solid rgba(255,255,255,.16);font-size:9.5px;font-weight:800;letter-spacing:.04em;margin-left:6px;vertical-align:middle}
 .rcard.is-dnf{opacity:.5}
 .rcard.is-dnf .rn{text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--dim)}
@@ -1382,6 +1385,16 @@ function headerSort(th,ev){const key=th.dataset.key,type=th.dataset.type||'txt',
 let pickSort={key:'val',dir:'desc'}, pickFilter={q:'',cat:'all'}, pickSet=[];
 const SQUAD_MAX=8, BUDGET=100;
 function pickVal(){return pickSet.reduce((a,id)=>a+(RIDERS[id]?RIDERS[id].val:0),0);}
+// How many riders each team still has in the race.
+function teamRemaining(){
+  const out={};
+  R.forEach(a=>{const r=RIDERS[a[0]];if(!r)return;
+    if(!out[r.team])out[r.team]={left:0,total:0};
+    out[r.team].total++;
+    if(!(DATA.DNF&&DATA.DNF[r.id]))out[r.team].left++;});
+  return out;
+}
+
 function renderPick(){
   let list=R.map(a=>RIDERS[a[0]]);const q=pickFilter.q.toLowerCase();
   if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.team.toLowerCase().includes(q));
@@ -1389,11 +1402,14 @@ function renderPick(){
   else if(pickFilter.cat!=='all')list=list.filter(r=>r.cat===pickFilter.cat);
   const col=COLS[pickSort.key];list.sort((a,b)=>{let va=col.get(a),vb=col.get(b),cmp=col.t==='txt'?String(va).localeCompare(String(vb)):va-vb;return pickSort.dir==='asc'?cmp:-cmp;});
   const rk=['climb','sprint','punch','itt','brk'],full=pickSet.length>=SQUAD_MAX;
+  const TR=teamRemaining();
   const body=document.getElementById('pickBody');if(body)body.innerHTML=list.map(r=>{
     const on=pickSet.includes(r.id),dis=!on&&full;
+    const out=DATA.DNF&&DATA.DNF[r.id];const outS=out?(out.stage||out):null;
+    const tr=TR[r.team]||{left:0,total:0};
     const cells=rk.map(k=>{const v=r[k],c=rateColor(v);return `<td class="ratecell"><span class="rate" style="background:${c.bg};color:${c.fg};box-shadow:inset 0 0 0 1px ${c.bd}">${v}</span></td>`;}).join('');
     const pts=SC.total[r.id]||0,ppcDisp=pts>0&&r.val?(pts/r.val).toFixed(2):'—';
-    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${YOUNG.has(r.id)?'<span class="yr-badge" title="Eligible for the white young-rider jersey (born 2001 or later)">U26</span>':''}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}<td class="ptscell">${pts}</td><td class="ppccell">${ppcDisp}</td></tr>`;}).join('');
+    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}${out?' is-out':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${YOUNG.has(r.id)?'<span class="yr-badge" title="Eligible for the white young-rider jersey (born 2001 or later)">U26</span>':''}${out?`<span class="dnfbadge" title="Out of the race \u2014 stage ${outS}">DNF</span>`:''}<span class="role">${out?`out, stage ${outS}`:r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}<span class="tleft" title="Riders this team still has in the race">${tr.left}/${tr.total}</span></div></td><td class="valcell">${r.val}</td>${cells}<td class="ptscell">${pts}</td><td class="ppccell">${ppcDisp}</td></tr>`;}).join('');
   document.querySelectorAll('#pickHead th[data-key]').forEach(th=>{const b=th.querySelector('.sortbadge');if(!b)return;if(th.dataset.key===pickSort.key){b.classList.add('on');b.textContent=pickSort.dir==='asc'?'▲':'▼';}else{b.classList.remove('on');b.textContent='';}});
   renderTray();
 }
@@ -1851,5 +1867,5 @@ buildEditor();
 go(location.hash.replace('#','')||'standings');
 </script>
 </body>
-<!-- deploy: 2026-09-06T05:44:15.994028+00:00 -->
+<!-- deploy: 2026-09-06T05:54:20.074307+00:00 -->
 </html>
